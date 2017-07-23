@@ -4,6 +4,10 @@
 #define BOARD_WIDTH 6
 #define BOARD_HEIGHT 12
 
+#define EMPTY '\t'
+
+#define isEmpty(boardCell) boardCell == EMPTY
+
 #define swap(board, x, y) {\
                             board[x*BOARD_WIDTH + y] ^= board[x*BOARD_WIDTH + y + 1]; \
                             board[x*BOARD_WIDTH + y + 1] ^= board[x*BOARD_WIDTH + y]; \
@@ -35,7 +39,32 @@ board_t parseBoard()
 
 void shift(board_t& board)
 {
-  // shift all '\t' cells out of the board
+  // todo : check the logic
+  // shift all EMPTY cells out of the board
+  for (int i = 0; i < BOARD_HEIGHT - 1; i++) // we don't care about the last row
+  {
+    for (int j = 0; j < BOARD_WIDTH; j++)
+    {
+      if (isEmpty(board[i * BOARD_WIDTH + j]))
+      {
+        // first find the nearest (vertically) non empty cell
+        int nearestCell = i + 1;
+        while (isEmpty(board[nearestCell * BOARD_WIDTH + j]))
+          nearestCell += 1;
+
+        // swap all empty cells with nearest cells
+        int currentY = i;
+        while (nearestCell < BOARD_HEIGHT)
+        {
+          board[currentY * BOARD_WIDTH + j] ^= board[nearestCell * BOARD_WIDTH + j];
+          board[nearestCell * BOARD_WIDTH + j] ^= board[currentY * BOARD_WIDTH + j];
+          board[currentY * BOARD_WIDTH + j] ^= board[nearestCell * BOARD_WIDTH + j];
+          currentY += 1;
+          nearestCell += 1;
+        }
+      }
+    }
+  }
 
 }
 
@@ -56,9 +85,9 @@ int clear(board_t& board)
         && board[i * BOARD_WIDTH + j] == board[i * BOARD_WIDTH + j - 1] && board[i * BOARD_WIDTH + j] == board[i * BOARD_WIDTH + j + 1])
       {
         // todo: check for greater than 3s
-        nextGeneration[i * BOARD_WIDTH + j] = '\t';
-        nextGeneration[i * BOARD_WIDTH + j - 1] = '\t';
-        nextGeneration[i * BOARD_WIDTH + j + 1] = '\t';
+        nextGeneration[i * BOARD_WIDTH + j] = EMPTY;
+        nextGeneration[i * BOARD_WIDTH + j - 1] = EMPTY;
+        nextGeneration[i * BOARD_WIDTH + j + 1] = EMPTY;
         clears += 1;
       }
 
@@ -67,9 +96,9 @@ int clear(board_t& board)
         && board[i * BOARD_WIDTH + j] == board[i * BOARD_WIDTH - 1 + j] && board[i * BOARD_WIDTH + j] == board[i * BOARD_WIDTH + 1 + j])
       {
         // todo: check for greater than 3s
-        nextGeneration[i * BOARD_WIDTH + j] = '\t';
-        nextGeneration[i * BOARD_WIDTH - 1 + j] = '\t';
-        nextGeneration[i * BOARD_WIDTH + 1 + j] = '\t';
+        nextGeneration[i * BOARD_WIDTH + j] = EMPTY;
+        nextGeneration[i * BOARD_WIDTH - 1 + j] = EMPTY;
+        nextGeneration[i * BOARD_WIDTH + 1 + j] = EMPTY;
         clears += 1;
       }
     }
