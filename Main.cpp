@@ -33,10 +33,59 @@ board_t parseBoard()
   return board;
 }
 
-int clear(board_t board)
+void shift(board_t& board)
 {
-  // todo
-  return 0;
+  // shift all '\t' cells out of the board
+
+}
+
+int clear(board_t& board)
+{
+  board_t nextGeneration;
+  int clears = 0;
+
+  for (int i = 0; i < BOARD_HEIGHT; i++)
+  {
+    for (int j = 0; j < BOARD_WIDTH; j++)
+    {
+      // initialise nextGeneration piece to original piece
+      nextGeneration[i * BOARD_WIDTH + j] = board[i * BOARD_WIDTH + j];
+
+      // horizontal clears
+      if (j > 0 && j < BOARD_WIDTH - 1
+        && board[i * BOARD_WIDTH + j] == board[i * BOARD_WIDTH + j - 1] && board[i * BOARD_WIDTH + j] == board[i * BOARD_WIDTH + j + 1])
+      {
+        // todo: check for greater than 3s
+        nextGeneration[i * BOARD_WIDTH + j] = '\t';
+        nextGeneration[i * BOARD_WIDTH + j - 1] = '\t';
+        nextGeneration[i * BOARD_WIDTH + j + 1] = '\t';
+        clears += 1;
+      }
+
+      // vertical clears
+      if (i > 0 && i < BOARD_HEIGHT - 1
+        && board[i * BOARD_WIDTH + j] == board[i * BOARD_WIDTH - 1 + j] && board[i * BOARD_WIDTH + j] == board[i * BOARD_WIDTH + 1 + j])
+      {
+        // todo: check for greater than 3s
+        nextGeneration[i * BOARD_WIDTH + j] = '\t';
+        nextGeneration[i * BOARD_WIDTH - 1 + j] = '\t';
+        nextGeneration[i * BOARD_WIDTH + 1 + j] = '\t';
+        clears += 1;
+      }
+    }
+  }
+
+  shift(nextGeneration);
+
+  if (clears > 0)
+  {
+    // recursive call, continue clearing until no clears
+    clears += clear(nextGeneration);
+  }
+
+  board = nextGeneration;
+
+  return clears;
 }
 
 move_t calculateMove(board_t board)
