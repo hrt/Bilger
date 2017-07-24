@@ -1,6 +1,9 @@
 ### Bilge puzzle solver for https://yppedia.puzzlepirates.com/Bilging
 A program which will calculate the best move (it thinks) using a DFS approach with depth of 1 (for now...).
 
+Note: It looks deeper than one in the case of crabs, puffer fish and jelly fish.
+Also worth noting that the evaluation is currently simply the number of "cells" you can clear excluding ones by puffer fish and jelly fish (since they don't add to your score). Crab combos are scored as well.
+
 ### Building
 To build this you will need to run ```make``` within the root directory
 
