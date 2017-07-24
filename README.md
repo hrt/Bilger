@@ -40,6 +40,7 @@ A crab is represented by 'X', JellyFish by 'Y' and PufferFish by 'Z'.
 
 The program will respond with your best move, for example
 ```2 5```
+which would correspond to the highlighted move in the diagram above.. ({0, 0} is the top left and {5, 11} is the bottom right)
 
 ### Testing
 To test run ```make check```
