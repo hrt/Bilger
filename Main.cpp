@@ -49,7 +49,7 @@ void shift(board_t& board)
       {
         // first find the nearest (vertically) non empty cell
         int nearestCell = i + 1;
-        while (isEmpty(board[nearestCell * BOARD_WIDTH + j]))
+        while (nearestCell < BOARD_HEIGHT && isEmpty(board[nearestCell * BOARD_WIDTH + j]))
           nearestCell += 1;
 
         // swap all empty cells with nearest cells
@@ -124,15 +124,15 @@ int clear(board_t& board)
   }
 
 
-  // shift(nextGeneration);
+  shift(nextGeneration);
 
-  // if (clears > 0)
-  // {
-  //   // recursive call, continue clearing until no clears
-  //   clears += clear(nextGeneration);
-  // }
+  if (clears > 0)
+  {
+    // recursive call, continue clearing until no clears
+    clears += clear(nextGeneration);
+  }
 
-  // board = nextGeneration;
+  board = nextGeneration;
 
   return clears;
 }
