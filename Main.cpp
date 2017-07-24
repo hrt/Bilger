@@ -97,7 +97,7 @@ int clearCrabs(board_t& board)
   }
 
   if (crabReleased)
-    crabReleased += clearCrabs(board);
+    crabReleased += clearCrabs(board); // recursive call, if crab is released then shift -> check for crabs again (do not clear all for crab combo)
 
   return crabReleased;
 }
@@ -158,7 +158,7 @@ int clear(board_t& board)
   {
     int crabsCleared = clearCrabs(nextGeneration) * 2;
     clears += crabsCleared * crabsCleared;
-    clears += clear(nextGeneration);        // recursive call
+    clears += clear(nextGeneration);        // recursive call, if board was shifted -> check for combos again, TODO: this value should be reduced since it is "random"
   }
 
   for (int i = 0; i < (int) nextGeneration.size(); i++)
