@@ -25,6 +25,9 @@
                      x ^= y; \
                    }
 
+#define min(a, b) (((a) < (b)) ? (a) : (b))
+#define max(a, b) (((a) > (b)) ? (a) : (b))
+
 using namespace std;
 
 typedef vector<char> board_t;
@@ -150,6 +153,7 @@ int clear(board_t& board)
         nextGeneration[(i - 1) * BOARD_WIDTH + j] = EMPTY;
         nextGeneration[(i - 2) * BOARD_WIDTH + j] = EMPTY;
       }
+
     }
   }
 
@@ -170,6 +174,27 @@ int clear(board_t& board)
   return clears;
 }
 
+void performPuffer(board_t& board, int y, int x)
+{
+  for (int i = max(y - 1, 0); i <= min(y + 1, BOARD_HEIGHT - 1); i++)
+    for (int j = max(x - 1, 0); j <= min(x + 1, BOARD_HEIGHT - 1); j++)
+      board[y * BOARD_WIDTH + x] = EMPTY;
+  shift(board);
+}
+
+void performJellyFish(board_t& board, int y, int j, int p)
+{
+  board[y * BOARD_WIDTH + j] = EMPTY;
+  char piece = board[y * BOARD_WIDTH + p];
+
+  for (int i = 0; i < BOARD_HEIGHT; i++)
+    for (int j = 0; j < BOARD_WIDTH; j++)
+      if (board[i * BOARD_WIDTH + j] == piece)
+        board[i * BOARD_WIDTH + j] = EMPTY;
+
+  shift(board);
+}
+
 move_t calculateMove(board_t board)
 {
   move_t bestMove;
@@ -180,7 +205,16 @@ move_t calculateMove(board_t board)
     for (int j = 0; j < BOARD_WIDTH - 1; j++) // only BOARD_WIDTH - 1 swaps possible per BOARD_WIDTH
     {
       board_t currentBoard(board);
-      performSwap(currentBoard, i, j);
+      if (isMovable(currentBoard[i * BOARD_WIDTH + j]) && isMovable(currentBoard[i * BOARD_WIDTH + j + 1]))
+        performSwap(currentBoard, i, j);
+      else if (isPuffer(currentBoard[i * BOARD_WIDTH + j]))
+        performPuffer(currentBoard, i, j);
+      else if (isPuffer(currentBoard[i * BOARD_WIDTH + j + 1]))
+        performPuffer(currentBoard, i, j + 1);
+      else if (isJellyFish(currentBoard[i * BOARD_WIDTH + j]) && isMovable(currentBoard[i * BOARD_WIDTH + j + 1]))
+        performJellyFish(currentBoard, i, j, j + 1);
+      else if (isJellyFish(currentBoard[i * BOARD_WIDTH + j + 1]) && isMovable(currentBoard[i * BOARD_WIDTH + j]))
+        performJellyFish(currentBoard, i, j + 1, j);
       int currentScore = clear(currentBoard);
       if (currentScore > bestScore)
       {
