@@ -5,7 +5,8 @@ Note: It looks deeper than one in the case of crabs, puffer fish and jelly fish.
 Also worth noting that the evaluation is currently simply the number of "cells" you can clear excluding ones by puffer fish and jelly fish (since they don't add to your score). Crab combos are scored as well.
 
 ### Building
-To build this you will need to run ```make``` within the root directory
+To build this you will need to run ```make``` within the root directory.
+If you're on windows you will need to install tools such as ```g++``` and ```make``` beforehand using applications such as Cygwin or Mingw.
 
 ### How to use
 Input to the program a series of 72 alphabetical characters follow by a non alphabetical characters to represent the board state.
@@ -36,6 +37,7 @@ which is..
 ABCDBCADBABEDABCEAADEDAEEBBEEDDABCDACEDBADCACBDADDBDCDBADCCBBDDCDECCEBAD4
 ```
 
+Note, the '4' at the end can be any non-alpha character used to represent termination.
 A crab is represented by 'X', JellyFish by 'Y' and PufferFish by 'Z'.
 
 The program will respond with your best move, for example
