@@ -5,13 +5,13 @@
 
 #define isEmpty(boardCell) (boardCell == EMPTY)
 
-#define isPuffer(boardCell) (boardCell == PUFFERFISH)
+#define isPufferFish(boardCell) (boardCell == PUFFERFISH)
 
 #define isJellyFish(boardCell) (boardCell == JELLYFISH)
 
 #define isCrab(boardCell) (boardCell == CRAB)
 
-#define isMovable(boardCell) (!isEmpty(boardCell) && !isPuffer(boardCell) && !isCrab(boardCell) && !isJellyFish(boardCell))
+#define isMoveable(boardCell) (!isEmpty(boardCell) && !isPufferFish(boardCell) && !isCrab(boardCell) && !isJellyFish(boardCell))
 
 #define performSwap(board, x, y) {\
                                    board[x*BOARD_WIDTH + y] ^= board[x*BOARD_WIDTH + y + 1]; \

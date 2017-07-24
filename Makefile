@@ -32,4 +32,4 @@ clean:
 	rm -f $(OBJDIR)/*.o $(OUTDIR)/Bilger $(OUTDIR)/Test
 
 check: $(OUTDIR)/Bilger $(OUTDIR)/Test
-	./$(OUTDIR)/Test < test.input
+			./$(OUTDIR)/Test < test.input

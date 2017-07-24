@@ -70,7 +70,7 @@ int Game::clearMoveable(board_t& board)
     for (int j = 0; j < BOARD_WIDTH; j++)
     {
       // horizontal right clears
-      if (j < BOARD_WIDTH - 2 && isMovable(board[i * BOARD_WIDTH + j])
+      if (j < BOARD_WIDTH - 2 && isMoveable(board[i * BOARD_WIDTH + j])
         && board[i * BOARD_WIDTH + j] == board[i * BOARD_WIDTH + j + 1]
         && board[i * BOARD_WIDTH + j] == board[i * BOARD_WIDTH + j + 2])
       {
@@ -80,7 +80,7 @@ int Game::clearMoveable(board_t& board)
       }
 
       // horizontal left clears
-      if (j > 1 && isMovable(board[i * BOARD_WIDTH + j])
+      if (j > 1 && isMoveable(board[i * BOARD_WIDTH + j])
         && board[i * BOARD_WIDTH + j] == board[i * BOARD_WIDTH + j - 1]
         && board[i * BOARD_WIDTH + j] == board[i * BOARD_WIDTH + j - 2])
       {
@@ -90,7 +90,7 @@ int Game::clearMoveable(board_t& board)
       }
 
       // vertical below clears
-      if (i < BOARD_HEIGHT - 2 && isMovable(board[i * BOARD_WIDTH + j])
+      if (i < BOARD_HEIGHT - 2 && isMoveable(board[i * BOARD_WIDTH + j])
         && board[i * BOARD_WIDTH + j] == board[(i + 1) * BOARD_WIDTH + j]
         && board[i * BOARD_WIDTH + j] == board[(i + 2) * BOARD_WIDTH + j])
       {
@@ -100,7 +100,7 @@ int Game::clearMoveable(board_t& board)
       }
 
       // vertical above clears
-      if (i > 1 && isMovable(board[i * BOARD_WIDTH + j])
+      if (i > 1 && isMoveable(board[i * BOARD_WIDTH + j])
         && board[i * BOARD_WIDTH + j] == board[(i - 1) * BOARD_WIDTH + j]
         && board[i * BOARD_WIDTH + j] == board[(i - 2) * BOARD_WIDTH + j])
       {
@@ -162,23 +162,23 @@ move_t Game::calculateMove()
     for (int j = 0; j < BOARD_WIDTH - 1; j++) // only BOARD_WIDTH - 1 swaps possible per BOARD_WIDTH
     {
       board_t currentBoard(this->board);
-      if (isMovable(currentBoard[i * BOARD_WIDTH + j]) && isMovable(currentBoard[i * BOARD_WIDTH + j + 1]))
+      if (isMoveable(currentBoard[i * BOARD_WIDTH + j]) && isMoveable(currentBoard[i * BOARD_WIDTH + j + 1]))
       {
         performSwap(currentBoard, i, j);
       }
-      else if (isPuffer(currentBoard[i * BOARD_WIDTH + j]))
+      else if (isPufferFish(currentBoard[i * BOARD_WIDTH + j]))
       {
         performPuffer(currentBoard, i, j);
       }
-      else if (isPuffer(currentBoard[i * BOARD_WIDTH + j + 1]))
+      else if (isPufferFish(currentBoard[i * BOARD_WIDTH + j + 1]))
       {
         performPuffer(currentBoard, i, j + 1);
       }
-      else if (isJellyFish(currentBoard[i * BOARD_WIDTH + j]) && isMovable(currentBoard[i * BOARD_WIDTH + j + 1]))
+      else if (isJellyFish(currentBoard[i * BOARD_WIDTH + j]) && isMoveable(currentBoard[i * BOARD_WIDTH + j + 1]))
       {
         performJellyFish(currentBoard, i, j, j + 1);
       }
-      else if (isJellyFish(currentBoard[i * BOARD_WIDTH + j + 1]) && isMovable(currentBoard[i * BOARD_WIDTH + j]))
+      else if (isJellyFish(currentBoard[i * BOARD_WIDTH + j + 1]) && isMoveable(currentBoard[i * BOARD_WIDTH + j]))
       {
         performJellyFish(currentBoard, i, j + 1, j);
       }
