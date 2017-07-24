@@ -5,8 +5,13 @@
 #define BOARD_HEIGHT 12
 
 #define EMPTY '-'
+#define CRAB 'X'
+#define JELLYFISH 'Y'
+#define PUFFERFISH 'Z'
 
 #define isEmpty(boardCell) (boardCell == EMPTY)
+
+#define isMovable(boardCell) (!isEmpty(boardCell) && boardCell != CRAB && boardCell != JELLYFISH && boardCell != PUFFERFISH)
 
 #define performSwap(board, x, y) {\
                                    board[x*BOARD_WIDTH + y] ^= board[x*BOARD_WIDTH + y + 1]; \
@@ -72,7 +77,29 @@ bool shift(board_t& board)
       }
     }
   }
+
   return hasShifted;
+}
+
+int clearCrabs(board_t& board)
+{
+  // note: this shift happens twice initially
+  shift();
+  int crabReleased = 0;
+  for (int i = 0; i < BOARD_HEIGHT - 3; i++)
+  {
+    for (int j = 0; j < BOARD_WIDTH; j++)
+      if (board[i * BOARD_WIDTH + j] == CRAB)
+      {
+        crabReleased += 1;
+        board[i * BOARD_WIDTH + j] = EMPTY;
+      }
+  }
+
+  if (crabReleased)
+    crabReleased += clearCrabs(board);
+
+  return crabReleased;
 }
 
 int clear(board_t& board)
@@ -85,7 +112,7 @@ int clear(board_t& board)
     for (int j = 0; j < BOARD_WIDTH; j++)
     {
       // horizontal right clears
-      if (j < BOARD_WIDTH - 2 && !isEmpty(board[i * BOARD_WIDTH + j])
+      if (j < BOARD_WIDTH - 2 && isMovable(board[i * BOARD_WIDTH + j])
         && board[i * BOARD_WIDTH + j] == board[i * BOARD_WIDTH + j + 1]
         && board[i * BOARD_WIDTH + j] == board[i * BOARD_WIDTH + j + 2])
       {
@@ -95,7 +122,7 @@ int clear(board_t& board)
       }
 
       // horizontal left clears
-      if (j > 1 && !isEmpty(board[i * BOARD_WIDTH + j])
+      if (j > 1 && isMovable(board[i * BOARD_WIDTH + j])
         && board[i * BOARD_WIDTH + j] == board[i * BOARD_WIDTH + j - 1]
         && board[i * BOARD_WIDTH + j] == board[i * BOARD_WIDTH + j - 2])
       {
@@ -105,7 +132,7 @@ int clear(board_t& board)
       }
 
       // vertical below clears
-      if (i < BOARD_HEIGHT - 2 && !isEmpty(board[i * BOARD_WIDTH + j])
+      if (i < BOARD_HEIGHT - 2 && isMovable(board[i * BOARD_WIDTH + j])
         && board[i * BOARD_WIDTH + j] == board[(i + 1) * BOARD_WIDTH + j]
         && board[i * BOARD_WIDTH + j] == board[(i + 2) * BOARD_WIDTH + j])
       {
@@ -115,7 +142,7 @@ int clear(board_t& board)
       }
 
       // vertical above clears
-      if (i > 1 && !isEmpty(board[i * BOARD_WIDTH + j])
+      if (i > 1 && isMovable(board[i * BOARD_WIDTH + j])
         && board[i * BOARD_WIDTH + j] == board[(i - 1) * BOARD_WIDTH + j]
         && board[i * BOARD_WIDTH + j] == board[(i - 2) * BOARD_WIDTH + j])
       {
@@ -128,7 +155,11 @@ int clear(board_t& board)
 
 
   if (shift(nextGeneration))
-    clear(nextGeneration);
+  {
+    int crabsCleared = clearCrabs(nextGeneration) * 2;
+    clears += crabsCleared * crabsCleared;
+    clears += clear(nextGeneration);        // recursive call
+  }
 
   for (int i = 0; i < (int) nextGeneration.size(); i++)
     if (isEmpty(nextGeneration[i]))
