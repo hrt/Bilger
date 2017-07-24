@@ -4,7 +4,7 @@
 #define BOARD_WIDTH 6
 #define BOARD_HEIGHT 12
 
-#define EMPTY '\n'
+#define EMPTY '-'
 
 #define isEmpty(boardCell) (boardCell == EMPTY)
 
@@ -37,13 +37,14 @@ board_t parseBoard()
   return board;
 }
 
-void shift(board_t& board)
+bool shift(board_t& board)
 {
   // todo : check the logic
   // shift all EMPTY cells out of the board
-  for (int i = 0; i < BOARD_HEIGHT - 1; i++) // we don't care about the last row
+  bool hasShifted = false;
+  for (int j = 0; j < BOARD_WIDTH; j++)
   {
-    for (int j = 0; j < BOARD_WIDTH; j++)
+    for (int i = 0; i < BOARD_HEIGHT - 1; i++) // we don't care about the last row
     {
       if (isEmpty(board[i * BOARD_WIDTH + j]))
       {
@@ -56,16 +57,19 @@ void shift(board_t& board)
         int currentY = i;
         while (nearestCell < BOARD_HEIGHT)
         {
+          hasShifted |= true;
           board[currentY * BOARD_WIDTH + j] ^= board[nearestCell * BOARD_WIDTH + j];
           board[nearestCell * BOARD_WIDTH + j] ^= board[currentY * BOARD_WIDTH + j];
           board[currentY * BOARD_WIDTH + j] ^= board[nearestCell * BOARD_WIDTH + j];
           currentY += 1;
           nearestCell += 1;
+          while (nearestCell < BOARD_HEIGHT && isEmpty(board[nearestCell * BOARD_WIDTH + j]))
+            nearestCell += 1;
         }
       }
     }
   }
-
+  return hasShifted;
 }
 
 int clear(board_t& board)
@@ -85,7 +89,6 @@ int clear(board_t& board)
         nextGeneration[i * BOARD_WIDTH + j] = EMPTY;
         nextGeneration[i * BOARD_WIDTH + j + 1] = EMPTY;
         nextGeneration[i * BOARD_WIDTH + j + 2] = EMPTY;
-        clears += 1;
       }
 
       // horizontal left clears
@@ -96,7 +99,6 @@ int clear(board_t& board)
         nextGeneration[i * BOARD_WIDTH + j] = EMPTY;
         nextGeneration[i * BOARD_WIDTH + j - 1] = EMPTY;
         nextGeneration[i * BOARD_WIDTH + j - 2] = EMPTY;
-        clears += 1;
       }
 
       // vertical below clears
@@ -107,7 +109,6 @@ int clear(board_t& board)
         nextGeneration[i * BOARD_WIDTH + j] = EMPTY;
         nextGeneration[(i + 1) * BOARD_WIDTH + j] = EMPTY;
         nextGeneration[(i + 2) * BOARD_WIDTH + j] = EMPTY;
-        clears += 1;
       }
 
       // vertical above clears
@@ -118,19 +119,17 @@ int clear(board_t& board)
         nextGeneration[i * BOARD_WIDTH + j] = EMPTY;
         nextGeneration[(i - 1) * BOARD_WIDTH + j] = EMPTY;
         nextGeneration[(i - 2) * BOARD_WIDTH + j] = EMPTY;
-        clears += 1;
       }
     }
   }
 
 
-  shift(nextGeneration);
+  if (shift(nextGeneration))
+    clear(nextGeneration);
 
-  if (clears > 0)
-  {
-    // recursive call, continue clearing until no clears
-    clears += clear(nextGeneration);
-  }
+  for (int i = 0; i < (int) nextGeneration.size(); i++)
+    if (isEmpty(nextGeneration[i]))
+      clears += 1;
 
   board = nextGeneration;
 
