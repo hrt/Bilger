@@ -8,11 +8,17 @@
 
 #define isEmpty(boardCell) (boardCell == EMPTY)
 
-#define swap(board, x, y) {\
-                            board[x*BOARD_WIDTH + y] ^= board[x*BOARD_WIDTH + y + 1]; \
-                            board[x*BOARD_WIDTH + y + 1] ^= board[x*BOARD_WIDTH + y]; \
-                            board[x*BOARD_WIDTH + y] ^= board[x*BOARD_WIDTH + y + 1]; \
-                          }
+#define performSwap(board, x, y) {\
+                                   board[x*BOARD_WIDTH + y] ^= board[x*BOARD_WIDTH + y + 1]; \
+                                   board[x*BOARD_WIDTH + y + 1] ^= board[x*BOARD_WIDTH + y]; \
+                                   board[x*BOARD_WIDTH + y] ^= board[x*BOARD_WIDTH + y + 1]; \
+                                 }
+
+#define swap(x, y) {\
+                     x ^= y; \
+                     y ^= x; \
+                     x ^= y; \
+                   }
 
 using namespace std;
 
@@ -39,7 +45,6 @@ board_t parseBoard()
 
 bool shift(board_t& board)
 {
-  // todo : check the logic
   // shift all EMPTY cells out of the board
   bool hasShifted = false;
   for (int j = 0; j < BOARD_WIDTH; j++)
@@ -58,9 +63,7 @@ bool shift(board_t& board)
         while (nearestCell < BOARD_HEIGHT)
         {
           hasShifted |= true;
-          board[currentY * BOARD_WIDTH + j] ^= board[nearestCell * BOARD_WIDTH + j];
-          board[nearestCell * BOARD_WIDTH + j] ^= board[currentY * BOARD_WIDTH + j];
-          board[currentY * BOARD_WIDTH + j] ^= board[nearestCell * BOARD_WIDTH + j];
+          swap(board[currentY * BOARD_WIDTH + j], board[nearestCell * BOARD_WIDTH + j])
           currentY += 1;
           nearestCell += 1;
           while (nearestCell < BOARD_HEIGHT && isEmpty(board[nearestCell * BOARD_WIDTH + j]))
@@ -83,9 +86,9 @@ int clear(board_t& board)
     {
       // horizontal right clears
       if (j < BOARD_WIDTH - 2 && !isEmpty(board[i * BOARD_WIDTH + j])
-        && board[i * BOARD_WIDTH + j] == board[i * BOARD_WIDTH + j + 1] && board[i * BOARD_WIDTH + j] == board[i * BOARD_WIDTH + j + 2])
+        && board[i * BOARD_WIDTH + j] == board[i * BOARD_WIDTH + j + 1]
+        && board[i * BOARD_WIDTH + j] == board[i * BOARD_WIDTH + j + 2])
       {
-        // todo: check for greater than 3s
         nextGeneration[i * BOARD_WIDTH + j] = EMPTY;
         nextGeneration[i * BOARD_WIDTH + j + 1] = EMPTY;
         nextGeneration[i * BOARD_WIDTH + j + 2] = EMPTY;
@@ -93,9 +96,9 @@ int clear(board_t& board)
 
       // horizontal left clears
       if (j > 1 && !isEmpty(board[i * BOARD_WIDTH + j])
-        && board[i * BOARD_WIDTH + j] == board[i * BOARD_WIDTH + j - 1] && board[i * BOARD_WIDTH + j] == board[i * BOARD_WIDTH + j - 2])
+        && board[i * BOARD_WIDTH + j] == board[i * BOARD_WIDTH + j - 1]
+        && board[i * BOARD_WIDTH + j] == board[i * BOARD_WIDTH + j - 2])
       {
-        // todo: check for greater than 3s
         nextGeneration[i * BOARD_WIDTH + j] = EMPTY;
         nextGeneration[i * BOARD_WIDTH + j - 1] = EMPTY;
         nextGeneration[i * BOARD_WIDTH + j - 2] = EMPTY;
@@ -103,9 +106,9 @@ int clear(board_t& board)
 
       // vertical below clears
       if (i < BOARD_HEIGHT - 2 && !isEmpty(board[i * BOARD_WIDTH + j])
-        && board[i * BOARD_WIDTH + j] == board[(i + 1) * BOARD_WIDTH + j] && board[i * BOARD_WIDTH + j] == board[(i + 2) * BOARD_WIDTH + j])
+        && board[i * BOARD_WIDTH + j] == board[(i + 1) * BOARD_WIDTH + j]
+        && board[i * BOARD_WIDTH + j] == board[(i + 2) * BOARD_WIDTH + j])
       {
-        // todo: check for greater than 3s
         nextGeneration[i * BOARD_WIDTH + j] = EMPTY;
         nextGeneration[(i + 1) * BOARD_WIDTH + j] = EMPTY;
         nextGeneration[(i + 2) * BOARD_WIDTH + j] = EMPTY;
@@ -113,9 +116,9 @@ int clear(board_t& board)
 
       // vertical above clears
       if (i > 1 && !isEmpty(board[i * BOARD_WIDTH + j])
-        && board[i * BOARD_WIDTH + j] == board[(i - 1) * BOARD_WIDTH + j] && board[i * BOARD_WIDTH + j] == board[(i - 2) * BOARD_WIDTH + j])
+        && board[i * BOARD_WIDTH + j] == board[(i - 1) * BOARD_WIDTH + j]
+        && board[i * BOARD_WIDTH + j] == board[(i - 2) * BOARD_WIDTH + j])
       {
-        // todo: check for greater than 3s
         nextGeneration[i * BOARD_WIDTH + j] = EMPTY;
         nextGeneration[(i - 1) * BOARD_WIDTH + j] = EMPTY;
         nextGeneration[(i - 2) * BOARD_WIDTH + j] = EMPTY;
@@ -146,7 +149,7 @@ move_t calculateMove(board_t board)
     for (int j = 0; j < BOARD_WIDTH - 1; j++) // only BOARD_WIDTH - 1 swaps possible per BOARD_WIDTH
     {
       board_t currentBoard(board);
-      swap(currentBoard, i, j);
+      performSwap(currentBoard, i, j);
       int currentScore = clear(currentBoard);
       if (currentScore > bestScore)
       {
