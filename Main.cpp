@@ -4,9 +4,9 @@
 #define BOARD_WIDTH 6
 #define BOARD_HEIGHT 12
 
-#define EMPTY '\t'
+#define EMPTY '\n'
 
-#define isEmpty(boardCell) boardCell == EMPTY
+#define isEmpty(boardCell) (boardCell == EMPTY)
 
 #define swap(board, x, y) {\
                             board[x*BOARD_WIDTH + y] ^= board[x*BOARD_WIDTH + y + 1]; \
@@ -70,49 +70,69 @@ void shift(board_t& board)
 
 int clear(board_t& board)
 {
-  board_t nextGeneration;
+  board_t nextGeneration(board);
   int clears = 0;
 
   for (int i = 0; i < BOARD_HEIGHT; i++)
   {
     for (int j = 0; j < BOARD_WIDTH; j++)
     {
-      // initialise nextGeneration piece to original piece
-      nextGeneration[i * BOARD_WIDTH + j] = board[i * BOARD_WIDTH + j];
+      // horizontal right clears
+      if (j < BOARD_WIDTH - 2 && !isEmpty(board[i * BOARD_WIDTH + j])
+        && board[i * BOARD_WIDTH + j] == board[i * BOARD_WIDTH + j + 1] && board[i * BOARD_WIDTH + j] == board[i * BOARD_WIDTH + j + 2])
+      {
+        // todo: check for greater than 3s
+        nextGeneration[i * BOARD_WIDTH + j] = EMPTY;
+        nextGeneration[i * BOARD_WIDTH + j + 1] = EMPTY;
+        nextGeneration[i * BOARD_WIDTH + j + 2] = EMPTY;
+        clears += 1;
+      }
 
-      // horizontal clears
-      if (j > 0 && j < BOARD_WIDTH - 1
-        && board[i * BOARD_WIDTH + j] == board[i * BOARD_WIDTH + j - 1] && board[i * BOARD_WIDTH + j] == board[i * BOARD_WIDTH + j + 1])
+      // horizontal left clears
+      if (j > 1 && !isEmpty(board[i * BOARD_WIDTH + j])
+        && board[i * BOARD_WIDTH + j] == board[i * BOARD_WIDTH + j - 1] && board[i * BOARD_WIDTH + j] == board[i * BOARD_WIDTH + j - 2])
       {
         // todo: check for greater than 3s
         nextGeneration[i * BOARD_WIDTH + j] = EMPTY;
         nextGeneration[i * BOARD_WIDTH + j - 1] = EMPTY;
-        nextGeneration[i * BOARD_WIDTH + j + 1] = EMPTY;
+        nextGeneration[i * BOARD_WIDTH + j - 2] = EMPTY;
         clears += 1;
       }
 
-      // vertical clears
-      if (i > 0 && i < BOARD_HEIGHT - 1
-        && board[i * BOARD_WIDTH + j] == board[i * BOARD_WIDTH - 1 + j] && board[i * BOARD_WIDTH + j] == board[i * BOARD_WIDTH + 1 + j])
+      // vertical below clears
+      if (i < BOARD_HEIGHT - 2 && !isEmpty(board[i * BOARD_WIDTH + j])
+        && board[i * BOARD_WIDTH + j] == board[(i + 1) * BOARD_WIDTH + j] && board[i * BOARD_WIDTH + j] == board[(i + 2) * BOARD_WIDTH + j])
       {
         // todo: check for greater than 3s
         nextGeneration[i * BOARD_WIDTH + j] = EMPTY;
-        nextGeneration[i * BOARD_WIDTH - 1 + j] = EMPTY;
-        nextGeneration[i * BOARD_WIDTH + 1 + j] = EMPTY;
+        nextGeneration[(i + 1) * BOARD_WIDTH + j] = EMPTY;
+        nextGeneration[(i + 2) * BOARD_WIDTH + j] = EMPTY;
+        clears += 1;
+      }
+
+      // vertical above clears
+      if (i > 1 && !isEmpty(board[i * BOARD_WIDTH + j])
+        && board[i * BOARD_WIDTH + j] == board[(i - 1) * BOARD_WIDTH + j] && board[i * BOARD_WIDTH + j] == board[(i - 2) * BOARD_WIDTH + j])
+      {
+        // todo: check for greater than 3s
+        nextGeneration[i * BOARD_WIDTH + j] = EMPTY;
+        nextGeneration[(i - 1) * BOARD_WIDTH + j] = EMPTY;
+        nextGeneration[(i - 2) * BOARD_WIDTH + j] = EMPTY;
         clears += 1;
       }
     }
   }
 
-  shift(nextGeneration);
 
-  if (clears > 0)
-  {
-    // recursive call, continue clearing until no clears
-    clears += clear(nextGeneration);
-  }
+  // shift(nextGeneration);
 
-  board = nextGeneration;
+  // if (clears > 0)
+  // {
+  //   // recursive call, continue clearing until no clears
+  //   clears += clear(nextGeneration);
+  // }
+
+  // board = nextGeneration;
 
   return clears;
 }
@@ -137,7 +157,7 @@ move_t calculateMove(board_t board)
       }
     }
   }
-
+  cout << "Score : " << bestScore << endl;
   return bestMove;
 }
 
