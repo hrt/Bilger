@@ -4,6 +4,8 @@ A program which will calculate the best move (it thinks) using a DFS approach wi
 Note: It looks deeper than one in the case of crabs, puffer fish and jelly fish.
 Also worth noting that the evaluation is currently simply the number of "cells" you can clear excluding ones by puffer fish and jelly fish (since they don't add to your score). Crab combos are scored as well.
 
+Discussion thread : https://bot-supply.com/forum/development/13888-bilge-bot-logic-%5Bc-source%5D.html
+
 ### Building
 To build this you will need to run ```make``` within the root directory.
 If you're on windows you will need to install tools such as ```g++``` and ```make``` beforehand using applications such as Cygwin or Mingw.
