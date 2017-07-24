@@ -36,7 +36,7 @@ ABCDBCADBABEDABCEAADEDAEEBBEEDDABCDACEDBADCACBDADDBDCDBADCCBBDDCDECCEBAD4
 A crab is represented by 'X', JellyFish by 'Y' and PufferFish by 'Z'.
 
 The program will respond with your best move, for example
-```2 5```
+```2 8```
 
 ### Testing
 Testing is currently in progress.. But will be available by ```make test```
