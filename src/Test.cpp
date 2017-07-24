@@ -15,11 +15,11 @@ int main()
   if (!allPassed)
   {
     std::cout << "Tests failed.." << std::endl;
+    return 1;
   }
   else
   {
     std::cout << "Tests passed.." << std::endl;
+    return 0;
   }
-
-  return 1;
 }
