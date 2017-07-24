@@ -11,7 +11,13 @@
 
 #define isEmpty(boardCell) (boardCell == EMPTY)
 
-#define isMovable(boardCell) (!isEmpty(boardCell) && boardCell != CRAB && boardCell != JELLYFISH && boardCell != PUFFERFISH)
+#define isPuffer(boardCell) (boardCell == PUFFERFISH)
+
+#define isJellyFish(boardCell) (boardCell == JELLYFISH)
+
+#define isCrab(boardCell) (boardCell == CRAB)
+
+#define isMovable(boardCell) (!isEmpty(boardCell) && !isPuffer(boardCell) && !isCrab(boardCell) && !isJellyFish(boardCell))
 
 #define performSwap(board, x, y) {\
                                    board[x*BOARD_WIDTH + y] ^= board[x*BOARD_WIDTH + y + 1]; \
@@ -54,6 +60,7 @@ board_t parseBoard()
 bool shift(board_t& board)
 {
   // shift all EMPTY cells out of the board
+
   bool hasShifted = false;
   for (int j = 0; j < BOARD_WIDTH; j++)
   {
@@ -87,19 +94,18 @@ bool shift(board_t& board)
 int clearCrabs(board_t& board)
 {
   // note: this shift happens twice initially
-  shift();
   int crabReleased = 0;
   for (int i = 0; i < BOARD_HEIGHT - 3; i++)
   {
     for (int j = 0; j < BOARD_WIDTH; j++)
-      if (board[i * BOARD_WIDTH + j] == CRAB)
+      if (isCrab(board[i * BOARD_WIDTH + j]))
       {
         crabReleased += 1;
         board[i * BOARD_WIDTH + j] = EMPTY;
       }
   }
 
-  if (crabReleased)
+  if (shift(board))
     crabReleased += clearCrabs(board); // recursive call, if crab is released then shift -> check for crabs again (do not clear all for crab combo)
 
   return crabReleased;
@@ -157,17 +163,18 @@ int clear(board_t& board)
     }
   }
 
-
   if (shift(nextGeneration))
   {
     int crabsCleared = clearCrabs(nextGeneration) * 2;
     clears += crabsCleared * crabsCleared;
-    clears += clear(nextGeneration);        // recursive call, if board was shifted -> check for combos again, TODO: this value should be reduced since it is "random"
+    clears += clear(nextGeneration);        // recursive case, if board was shifted -> check for combos again, TODO: this score should be reduced since it is "random"
   }
-
-  for (int i = 0; i < (int) nextGeneration.size(); i++)
-    if (isEmpty(nextGeneration[i]))
-      clears += 1;
+  else
+  {                                         // base case, todo: we don't need to go through entire board
+    for (int i = 0; i < (int) nextGeneration.size(); i++)
+      if (isEmpty(nextGeneration[i]))
+        clears += 1;
+  }
 
   board = nextGeneration;
 
@@ -179,6 +186,7 @@ void performPuffer(board_t& board, int y, int x)
   for (int i = max(y - 1, 0); i <= min(y + 1, BOARD_HEIGHT - 1); i++)
     for (int j = max(x - 1, 0); j <= min(x + 1, BOARD_HEIGHT - 1); j++)
       board[y * BOARD_WIDTH + x] = EMPTY;
+
   shift(board);
 }
 
@@ -206,15 +214,25 @@ move_t calculateMove(board_t board)
     {
       board_t currentBoard(board);
       if (isMovable(currentBoard[i * BOARD_WIDTH + j]) && isMovable(currentBoard[i * BOARD_WIDTH + j + 1]))
+      {
         performSwap(currentBoard, i, j);
+      }
       else if (isPuffer(currentBoard[i * BOARD_WIDTH + j]))
+      {
         performPuffer(currentBoard, i, j);
+      }
       else if (isPuffer(currentBoard[i * BOARD_WIDTH + j + 1]))
+      {
         performPuffer(currentBoard, i, j + 1);
+      }
       else if (isJellyFish(currentBoard[i * BOARD_WIDTH + j]) && isMovable(currentBoard[i * BOARD_WIDTH + j + 1]))
+      {
         performJellyFish(currentBoard, i, j, j + 1);
+      }
       else if (isJellyFish(currentBoard[i * BOARD_WIDTH + j + 1]) && isMovable(currentBoard[i * BOARD_WIDTH + j]))
+      {
         performJellyFish(currentBoard, i, j + 1, j);
+      }
       int currentScore = clear(currentBoard);
       if (currentScore > bestScore)
       {
