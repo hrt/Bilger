@@ -1,8 +1,8 @@
 CC			= g++
 OBJDIR	= obj
-CFLAGS  = -std=c++0x -Wall -Werror -pedantic
+CFLAGS  = -std=c++0x -Wall -Werror -pedantic -pthread -isystem $(LIBDIR)/googletest/googletest/include/ $(LIBDIR)/libgtest.a
 LIBDIR  = lib
-CTFLAGS = $(CFLAGS) -I $(SRCDIR) -pthread -isystem $(LIBDIR)/googletest/googletest/include/ $(LIBDIR)/libgtest.a
+CTFLAGS = $(CFLAGS) -I $(SRCDIR)
 SRCDIR	= src
 TESTDIR = test
 OUTDIR	= bin

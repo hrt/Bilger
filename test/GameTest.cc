@@ -113,3 +113,48 @@ TEST(performSwap, doesNotTouchOtherElements)
     if (i != indexA && i != indexB)
       EXPECT_EQ(true, board[i] == i);
 }
+
+
+TEST(shift, returnsFalseOnNoShifts)
+{
+  board_t board;
+  for (int i = 0; i < BOARD_WIDTH * BOARD_HEIGHT; i++)
+    board.push_back('A');
+
+  Game game(board);
+
+  EXPECT_EQ(false, game.shift(board));
+
+  for (int i = 0; i < BOARD_WIDTH * BOARD_HEIGHT; i++)
+    board[i] = EMPTY;
+
+  EXPECT_EQ(false, game.shift(board));
+}
+
+TEST(shift, returnsTrueOnShift)
+{
+  board_t board;
+  for (int i = 0; i < BOARD_WIDTH * BOARD_HEIGHT; i++)
+    board.push_back('A');
+
+  board[0] = EMPTY;
+
+  Game game(board);
+
+  EXPECT_EQ(true, game.shift(board));
+}
+
+TEST(shift, returnsTrueOnShifts)
+{
+  board_t board;
+  for (int i = 0; i < BOARD_WIDTH * BOARD_HEIGHT; i++)
+    board.push_back('A');
+
+  board[0] = EMPTY;
+  board[3] = EMPTY;
+  board[BOARD_WIDTH] = EMPTY;
+
+  Game game(board);
+
+  EXPECT_EQ(true, game.shift(board));
+}

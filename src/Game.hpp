@@ -1,4 +1,5 @@
 #include "Definitions.hpp"
+#include "gtest/gtest_prod.h"
 
 #ifndef GAME_HPP
 #define GAME_HPP
@@ -31,6 +32,11 @@ private:
   int clearMoveable(board_t& board);
   void performPuffer(board_t& board, int y, int x);
   void performJellyFish(board_t& board, int y, int j, int p);
+
+  // Functions used for google tests
+  FRIEND_TEST(shift, returnsFalseOnNoShifts);
+  FRIEND_TEST(shift, returnsTrueOnShift);
+  FRIEND_TEST(shift, returnsTrueOnShifts);
 };
 
 #endif
