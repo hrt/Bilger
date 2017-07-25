@@ -47,4 +47,7 @@ The program will respond with your best move, for example
 which would correspond to the highlighted move in the diagram above.. (```{0, 0}``` is the top left and ```{5, 11}``` is the bottom right)
 
 ### Testing
-To test run ```make check```
+You will need to compile google tests https://github.com/google/googletest and place ```libgtest.a``` within the root of the ```lib``` folder.
+You will also need to have the google test include folder (found within the repo) and place it within the ```lib``` folder.
+
+Afterso, run ```make check``` within the root directory to run the tests.

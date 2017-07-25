@@ -1,6 +1,8 @@
 CC			= g++
 OBJDIR	= obj
-CFLAGS  = -std=c++0x -Wall -Werror -pedantic -I $(SRCDIR)
+CFLAGS  = -std=c++0x -Wall -Werror -pedantic
+LIBDIR  = lib
+CTFLAGS = $(CFLAGS) -I $(SRCDIR) -pthread -isystem $(LIBDIR)/googletest/include/ $(LIBDIR)/libgtest.a
 SRCDIR	= src
 TESTDIR = test
 OUTDIR	= bin
@@ -13,20 +15,20 @@ DEPS    = $(patsubst %,$(SRCDIR)/%,$(_DEPS))
 _OBJ		= $(OOBJ) Main.o
 OBJ			= $(patsubst %,$(OBJDIR)/%,$(_OBJ))
 
-_TOBJ		= $(OOBJ) Test.o ParserTest.o GameTest.o
+_TOBJ		= $(OOBJ) Test.o
 TOBJ		=  $(patsubst %,$(OBJDIR)/%,$(_TOBJ))
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.cpp $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
 
 $(OBJDIR)/%.o: $(TESTDIR)/%.cpp $(DEPS)
-	$(CC) -c -o $@ $< $(CFLAGS)
+	$(CC) -c -o $@ $< $(CTFLAGS)
 
 $(OUTDIR)/Bilger: $(OBJ)
 	$(CC) -o $@ $^ $(CFLAGS)
 
 $(OUTDIR)/Test:	$(TOBJ)
-	$(CC) -o $@ $^ $(CFLAGS)
+	$(CC) -o $@ $^ $(CTFLAGS)
 
 .PHONY: clean check all
 
