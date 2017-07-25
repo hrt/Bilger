@@ -50,19 +50,18 @@ which would correspond to the highlighted move in the diagram above.. (```{0, 0}
 You will need to compile google tests https://github.com/google/googletest and place ```libgtest.a``` within the root of the ```lib``` folder.
 You will also need to have the google test include folder (included as a submodule within this repo) and place it within the ```lib``` folder.
 
-To pull the google test sub module run the command
-```git submodule update --init --recursive --remote```
+To pull the google test sub module run the command ```git submodule update --init --recursive --remote```
 
-To later remove the sub modules run
-```git submodule deinit -f {PATH TO lib/googletest folder}```
 
-To compile google tests on Linux, navigate to lib/googletest/googletest/ and run
-```g++ -isystem include -I . -pthread -c src/gtest-all.cc```
+To later remove the sub modules run ```git submodule deinit -f {PATH TO lib/googletest folder}```
 
-and then run
-```ar -rv libgtest.a gtest-all.o```
 
-then you should move the ```libgtest.a``` file to the root of the ```lib``` folder. e.g.
-```mv libgtest.a ../..```
+To compile google tests on Linux, navigate to lib/googletest/googletest/ and run  ```g++ -isystem include -I . -pthread -c src/gtest-all.cc```
+
+
+and then run  ```ar -rv libgtest.a gtest-all.o```
+
+then you should move the ```libgtest.a``` file to the root of the ```lib``` folder. e.g.  ```mv libgtest.a ../..```
+
 
 Afterso, run ```make check``` within the root directory to run the tests.
