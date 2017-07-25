@@ -1,6 +1,6 @@
 CC			= g++
 OBJDIR	= obj
-CFLAGS  = -std=c++0x -Wall -Werror -pedantic -pthread -isystem $(LIBDIR)/googletest/googletest/include/ $(LIBDIR)/libgtest.a
+CFLAGS  = -std=c++0x -Wall -Werror -pedantic -pthread -isystem $(LIBDIR)/googletest/googletest/include/ $(LIBDIR)/googletest/googletest/libgtest.a
 LIBDIR  = lib
 CTFLAGS = $(CFLAGS) -I $(SRCDIR)
 SRCDIR	= src
