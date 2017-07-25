@@ -61,7 +61,4 @@ To compile google tests on Linux, navigate to lib/googletest/googletest/ and run
 
 and then run  ```ar -rv libgtest.a gtest-all.o```
 
-then you should move the ```libgtest.a``` file to the root of the ```lib``` folder. e.g.  ```mv libgtest.a ../..```
-
-
 Afterso, run ```make check``` within the root directory to run the tests.
