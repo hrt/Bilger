@@ -13,10 +13,10 @@
 
 #define isMoveable(boardCell) (!isEmpty(boardCell) && !isPufferFish(boardCell) && !isCrab(boardCell) && !isJellyFish(boardCell))
 
-#define performSwap(board, x, y) {\
-                                   board[x*BOARD_WIDTH + y] ^= board[x*BOARD_WIDTH + y + 1]; \
-                                   board[x*BOARD_WIDTH + y + 1] ^= board[x*BOARD_WIDTH + y]; \
-                                   board[x*BOARD_WIDTH + y] ^= board[x*BOARD_WIDTH + y + 1]; \
+#define performSwap(board, y, x) {\
+                                   board[y*BOARD_WIDTH + x] ^= board[y*BOARD_WIDTH + x + 1]; \
+                                   board[y*BOARD_WIDTH + x + 1] ^= board[y*BOARD_WIDTH + x]; \
+                                   board[y*BOARD_WIDTH + x] ^= board[y*BOARD_WIDTH + x + 1]; \
                                  }
 
 class Game

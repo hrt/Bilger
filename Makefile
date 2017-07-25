@@ -15,20 +15,20 @@ DEPS    = $(patsubst %,$(SRCDIR)/%,$(_DEPS))
 _OBJ		= $(OOBJ) Main.o
 OBJ			= $(patsubst %,$(OBJDIR)/%,$(_OBJ))
 
-_TOBJ		= $(OOBJ) Test.o
+_TOBJ		= $(OOBJ) ParserTest.o GameTest.o
 TOBJ		=  $(patsubst %,$(OBJDIR)/%,$(_TOBJ))
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.cpp $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
 
-$(OBJDIR)/%.o: $(TESTDIR)/%.cpp $(DEPS)
+$(OBJDIR)/%.o: $(TESTDIR)/%.cc $(DEPS)
 	$(CC) -c -o $@ $< $(CTFLAGS)
 
 $(OUTDIR)/Bilger: $(OBJ)
 	$(CC) -o $@ $^ $(CFLAGS)
 
 $(OUTDIR)/Test:	$(TOBJ)
-	$(CC) -o $@ $^ $(CTFLAGS)
+	$(CC) -o $@ $^ $(CTFLAGS) $(LIBDIR)/googletest/googletest/src/gtest_main.cc
 
 .PHONY: clean check all
 
