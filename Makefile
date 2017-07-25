@@ -1,8 +1,8 @@
 CC			= g++
-CFLAGS  = -std=c++0x -Wall -Werror -pedantic
-SRC			= src/
 OBJDIR	= obj
+CFLAGS  = -std=c++0x -Wall -Werror -pedantic -I $(SRCDIR)
 SRCDIR	= src
+TESTDIR = test
 OUTDIR	= bin
 
 OOBJ		= Game.o Parser.o
@@ -19,6 +19,8 @@ TOBJ		=  $(patsubst %,$(OBJDIR)/%,$(_TOBJ))
 $(OBJDIR)/%.o: $(SRCDIR)/%.cpp $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
 
+$(OBJDIR)/%.o: $(TESTDIR)/%.cpp $(DEPS)
+	$(CC) -c -o $@ $< $(CFLAGS)
 
 $(OUTDIR)/Bilger: $(OBJ)
 	$(CC) -o $@ $^ $(CFLAGS)
