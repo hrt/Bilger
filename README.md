@@ -48,6 +48,6 @@ which would correspond to the highlighted move in the diagram above.. (```{0, 0}
 
 ### Testing
 You will need to compile google tests https://github.com/google/googletest and place ```libgtest.a``` within the root of the ```lib``` folder.
-You will also need to have the google test include folder (found within the repo) and place it within the ```lib``` folder.
+You will also need to have the google test include folder (included as a submodule within this repo) and place it within the ```lib``` folder.
 
 Afterso, run ```make check``` within the root directory to run the tests.
