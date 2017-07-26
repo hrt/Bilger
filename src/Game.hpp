@@ -40,6 +40,7 @@ private:
   FRIEND_TEST(shift, performsValidShift);
 
   FRIEND_TEST(clearCrabs, doesNotClearCrabsUnderwater);
+  FRIEND_TEST(clearCrabs, doesClearCrabsOverwater);
 };
 
 #endif

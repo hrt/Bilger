@@ -198,3 +198,16 @@ TEST(clearCrabs, doesNotClearCrabsUnderwater)
 
   EXPECT_EQ(0, game.clearCrabs(board, DEFAULT_WATER_LEVEL));
 }
+
+TEST(clearCrabs, doesClearCrabsOverwater)
+{
+  board_t board = createFullBoardWith('A');
+
+  // fill up crabs over water level
+  for (int i = 0; i < BOARD_WIDTH * (BOARD_HEIGHT - DEFAULT_WATER_LEVEL); i++)
+    board[i] = CRAB;
+
+  Game game(board);
+
+  EXPECT_EQ(54, game.clearCrabs(board, DEFAULT_WATER_LEVEL));
+}
