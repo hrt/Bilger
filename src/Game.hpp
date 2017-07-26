@@ -37,6 +37,7 @@ private:
   FRIEND_TEST(shift, returnsFalseOnNoShifts);
   FRIEND_TEST(shift, returnsTrueOnAShift);
   FRIEND_TEST(shift, returnsTrueOnMultipleShifts);
+  FRIEND_TEST(shift, performsValidShift);
 };
 
 #endif

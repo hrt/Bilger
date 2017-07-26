@@ -118,6 +118,7 @@ TEST(performSwap, doesNotTouchOtherElements)
 TEST(shift, returnsFalseOnNoShifts)
 {
   board_t board;
+  // entire board is full
   for (int i = 0; i < BOARD_WIDTH * BOARD_HEIGHT; i++)
     board.push_back('A');
 
@@ -125,6 +126,7 @@ TEST(shift, returnsFalseOnNoShifts)
 
   EXPECT_EQ(false, game.shift(board));
 
+  // entire board is empty (no shifts)
   for (int i = 0; i < BOARD_WIDTH * BOARD_HEIGHT; i++)
     board[i] = EMPTY;
 
@@ -134,9 +136,11 @@ TEST(shift, returnsFalseOnNoShifts)
 TEST(shift, returnsTrueOnAShift)
 {
   board_t board;
+  // entire board is full
   for (int i = 0; i < BOARD_WIDTH * BOARD_HEIGHT; i++)
     board.push_back('A');
 
+  // except this
   board[0] = EMPTY;
 
   Game game(board);
@@ -147,9 +151,11 @@ TEST(shift, returnsTrueOnAShift)
 TEST(shift, returnsTrueOnMultipleShifts)
 {
   board_t board;
+  // entire board is full
   for (int i = 0; i < BOARD_WIDTH * BOARD_HEIGHT; i++)
     board.push_back('A');
 
+  // except these
   board[0] = EMPTY;
   board[3] = EMPTY;
   board[BOARD_WIDTH] = EMPTY;
@@ -157,4 +163,27 @@ TEST(shift, returnsTrueOnMultipleShifts)
   Game game(board);
 
   EXPECT_EQ(true, game.shift(board));
+}
+
+TEST(shift, performsValidShift)
+{
+  board_t board;
+  // top row is initially empty
+  for (int i = 0; i < BOARD_WIDTH; i++)
+    board.push_back(EMPTY);
+
+  // rest is full
+  for (int i = BOARD_WIDTH; i < BOARD_WIDTH * BOARD_HEIGHT; i++)
+    board.push_back('A');
+
+  Game game(board);
+
+  EXPECT_EQ(true, game.shift(board));
+
+  // only bottom row should be empty..
+  for (int i = 0; i < BOARD_WIDTH * (BOARD_HEIGHT - 1); i++)
+    EXPECT_EQ('A', board[i]);
+
+  for (int i = BOARD_WIDTH * (BOARD_HEIGHT - 1); i < BOARD_WIDTH * BOARD_HEIGHT; i++)
+    EXPECT_EQ(true, isEmpty(board[i]));
 }
