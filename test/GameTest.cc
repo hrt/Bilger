@@ -12,7 +12,7 @@ board_t createFullBoardWith(char piece)
   return board;
 }
 
-TEST(hsEmpty, HoldsTrueForEmpty)
+TEST(isEmpty, HoldsTrueForEmpty)
 {
   EXPECT_TRUE(isEmpty(EMPTY));
 }
