@@ -210,6 +210,10 @@ TEST(clearCrabs, doesClearCrabsOverwater)
   Game game(board);
 
   EXPECT_EQ(54, game.clearCrabs(board, DEFAULT_WATER_LEVEL));
+
+  // top rows should be shifted
+  for (int i = 0; i < BOARD_WIDTH * DEFAULT_WATER_LEVEL; i++)
+    EXPECT_EQ('A', board[i]);
 }
 
 TEST(clearCrabs, doesChainClearCrabsOverwater)
@@ -223,4 +227,8 @@ TEST(clearCrabs, doesChainClearCrabsOverwater)
   Game game(board);
 
   EXPECT_EQ(72, game.clearCrabs(board, DEFAULT_WATER_LEVEL));
+
+  // board should now be empty
+  for (int i = 0; i < BOARD_WIDTH * BOARD_HEIGHT; i++)
+    EXPECT_EQ(EMPTY, board[i]);
 }
