@@ -14,73 +14,73 @@ board_t createFullBoardWith(char piece)
 
 TEST(hsEmpty, HoldsTrueForEmpty)
 {
-  EXPECT_EQ(true, isEmpty(EMPTY));
+  EXPECT_TRUE(isEmpty(EMPTY));
 }
 
 TEST(isEmpty, holdsFalseForNonEmpty)
 {
-  EXPECT_EQ(false, isEmpty(PUFFERFISH));
-  EXPECT_EQ(false, isEmpty(JELLYFISH));
-  EXPECT_EQ(false, isEmpty(CRAB));
-  EXPECT_EQ(false, isEmpty('A'));
-  EXPECT_EQ(false, isEmpty('7'));
+  EXPECT_FALSE(isEmpty(PUFFERFISH));
+  EXPECT_FALSE(isEmpty(JELLYFISH));
+  EXPECT_FALSE(isEmpty(CRAB));
+  EXPECT_FALSE(isEmpty('A'));
+  EXPECT_FALSE(isEmpty('7'));
 }
 
 TEST(isPufferFish, holdsTrueForPufferFish)
 {
-  EXPECT_EQ(true, isPufferFish(PUFFERFISH));
+  EXPECT_TRUE(isPufferFish(PUFFERFISH));
 }
 
 TEST(isPufferFish, holdsFalseForNonPufferFish)
 {
-  EXPECT_EQ(false, isPufferFish(EMPTY));
-  EXPECT_EQ(false, isPufferFish(JELLYFISH));
-  EXPECT_EQ(false, isPufferFish(CRAB));
-  EXPECT_EQ(false, isPufferFish('A'));
-  EXPECT_EQ(false, isPufferFish('7'));
+  EXPECT_FALSE(isPufferFish(EMPTY));
+  EXPECT_FALSE(isPufferFish(JELLYFISH));
+  EXPECT_FALSE(isPufferFish(CRAB));
+  EXPECT_FALSE(isPufferFish('A'));
+  EXPECT_FALSE(isPufferFish('7'));
 }
 
 TEST(isJellyFish, holdsTrueForJellyFish)
 {
-  EXPECT_EQ(true, isJellyFish(JELLYFISH));
+  EXPECT_TRUE(isJellyFish(JELLYFISH));
 }
 
 TEST(isJellyFish, holdsFalseForNonJellyFish)
 {
-  EXPECT_EQ(false, isJellyFish(EMPTY));
-  EXPECT_EQ(false, isJellyFish(PUFFERFISH));
-  EXPECT_EQ(false, isJellyFish(CRAB));
-  EXPECT_EQ(false, isJellyFish('A'));
-  EXPECT_EQ(false, isJellyFish('7'));
+  EXPECT_FALSE(isJellyFish(EMPTY));
+  EXPECT_FALSE(isJellyFish(PUFFERFISH));
+  EXPECT_FALSE(isJellyFish(CRAB));
+  EXPECT_FALSE(isJellyFish('A'));
+  EXPECT_FALSE(isJellyFish('7'));
 }
 
 TEST(isCrab, holdsTrueForCrab)
 {
-  EXPECT_EQ(true, isCrab(CRAB));
+  EXPECT_TRUE(isCrab(CRAB));
 }
 
 TEST(isCrab, holdsFalseForNonCrab)
 {
-  EXPECT_EQ(false, isCrab(EMPTY));
-  EXPECT_EQ(false, isCrab(PUFFERFISH));
-  EXPECT_EQ(false, isCrab(JELLYFISH));
-  EXPECT_EQ(false, isCrab('A'));
-  EXPECT_EQ(false, isCrab('7'));
+  EXPECT_FALSE(isCrab(EMPTY));
+  EXPECT_FALSE(isCrab(PUFFERFISH));
+  EXPECT_FALSE(isCrab(JELLYFISH));
+  EXPECT_FALSE(isCrab('A'));
+  EXPECT_FALSE(isCrab('7'));
 }
 
 TEST(isMoveable, holdsTrueForMoveable)
 {
-  EXPECT_EQ(true, isMoveable('A'));
-  EXPECT_EQ(true, isMoveable('7'));
-  EXPECT_EQ(true, isMoveable(' '));
+  EXPECT_TRUE(isMoveable('A'));
+  EXPECT_TRUE(isMoveable('7'));
+  EXPECT_TRUE(isMoveable(' '));
 }
 
 TEST(isMoveable, holdsFalseForNonMoveable)
 {
-  EXPECT_EQ(false, isMoveable(EMPTY));
-  EXPECT_EQ(false, isMoveable(PUFFERFISH));
-  EXPECT_EQ(false, isMoveable(JELLYFISH));
-  EXPECT_EQ(false, isMoveable(CRAB));
+  EXPECT_FALSE(isMoveable(EMPTY));
+  EXPECT_FALSE(isMoveable(PUFFERFISH));
+  EXPECT_FALSE(isMoveable(JELLYFISH));
+  EXPECT_FALSE(isMoveable(CRAB));
 }
 
 TEST(performSwap, swapsTwoElements)
@@ -121,7 +121,7 @@ TEST(performSwap, doesNotTouchOtherElements)
 
   for (int i = 0; i < BOARD_WIDTH * BOARD_HEIGHT; i++)
     if (i != indexA && i != indexB)
-      EXPECT_EQ(true, board[i] == i);
+      EXPECT_TRUE(board[i] == i);
 }
 
 
@@ -131,13 +131,13 @@ TEST(shift, returnsFalseOnNoShifts)
 
   Game game(board);
 
-  EXPECT_EQ(false, game.shift(board));
+  EXPECT_FALSE(game.shift(board));
 
   // entire board is empty (no shifts)
   for (int i = 0; i < BOARD_WIDTH * BOARD_HEIGHT; i++)
     board[i] = EMPTY;
 
-  EXPECT_EQ(false, game.shift(board));
+  EXPECT_FALSE(game.shift(board));
 }
 
 TEST(shift, returnsTrueOnAShift)
@@ -149,7 +149,7 @@ TEST(shift, returnsTrueOnAShift)
 
   Game game(board);
 
-  EXPECT_EQ(true, game.shift(board));
+  EXPECT_TRUE(game.shift(board));
 }
 
 TEST(shift, returnsTrueOnMultipleShifts)
@@ -163,7 +163,7 @@ TEST(shift, returnsTrueOnMultipleShifts)
 
   Game game(board);
 
-  EXPECT_EQ(true, game.shift(board));
+  EXPECT_TRUE(game.shift(board));
 }
 
 TEST(shift, performsValidShift)
@@ -176,14 +176,14 @@ TEST(shift, performsValidShift)
 
   Game game(board);
 
-  EXPECT_EQ(true, game.shift(board));
+  EXPECT_TRUE(game.shift(board));
 
   // only bottom row should be empty..
   for (int i = 0; i < BOARD_WIDTH * (BOARD_HEIGHT - 1); i++)
     EXPECT_EQ('A', board[i]);
 
   for (int i = BOARD_WIDTH * (BOARD_HEIGHT - 1); i < BOARD_WIDTH * BOARD_HEIGHT; i++)
-    EXPECT_EQ(true, isEmpty(board[i]));
+    EXPECT_TRUE(isEmpty(board[i]));
 }
 
 TEST(clearCrabs, doesNotClearCrabsUnderwater)
@@ -230,7 +230,7 @@ TEST(clearCrabs, doesChainClearCrabsOverwater)
 
   // board should now be empty
   for (int i = 0; i < BOARD_WIDTH * BOARD_HEIGHT; i++)
-    EXPECT_EQ(EMPTY, board[i]);
+    EXPECT_TRUE(isEmpty(board[i]));
 }
 
 TEST(clearMoveable, doesClear3InARow)
@@ -322,9 +322,9 @@ TEST(performPuffer, doesPerformValidPuffer)
 
   for (int i = 1; i <= 3; i++)
   {
-    EXPECT_EQ(true, isEmpty(board[(BOARD_HEIGHT - i) * BOARD_WIDTH]));
-    EXPECT_EQ(true, isEmpty(board[(BOARD_HEIGHT - i) * BOARD_WIDTH + 1]));
-    EXPECT_EQ(true, isEmpty(board[(BOARD_HEIGHT - i) * BOARD_WIDTH + 2]));
+    EXPECT_TRUE(isEmpty(board[(BOARD_HEIGHT - i) * BOARD_WIDTH]));
+    EXPECT_TRUE(isEmpty(board[(BOARD_HEIGHT - i) * BOARD_WIDTH + 1]));
+    EXPECT_TRUE(isEmpty(board[(BOARD_HEIGHT - i) * BOARD_WIDTH + 2]));
   }
 }
 
@@ -338,5 +338,5 @@ TEST(performJellyFish, doesPerformValidJellyFish)
   game.performJellyFish(board, 0, 0, 'A');
 
   for (int i = 0; i < BOARD_WIDTH * BOARD_HEIGHT; i++)
-    EXPECT_EQ(true, isEmpty(board[i]));
+    EXPECT_TRUE(isEmpty(board[i]));
 }
