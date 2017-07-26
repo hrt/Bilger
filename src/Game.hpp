@@ -51,7 +51,6 @@ private:
   FRIEND_TEST(performPuffer, doesPerformValidPuffer);
 
   FRIEND_TEST(performJellyFish, doesPerformValidJellyFish);
-  // TODO : performJellyFish
 };
 
 #endif
