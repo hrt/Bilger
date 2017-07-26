@@ -47,6 +47,8 @@ private:
   FRIEND_TEST(clearMoveable, doesClear3InACol);
   FRIEND_TEST(clearMoveable, doesClear3x3);
   FRIEND_TEST(clearMoveable, doesClear4x4);
+
+  FRIEND_TEST(performPuffer, doesPerformValidPuffer);
   // TODO : performPuffer and performJellyFish
 };
 

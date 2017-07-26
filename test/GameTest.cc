@@ -311,3 +311,21 @@ TEST(clearMoveable, doesClear4x4)
     EXPECT_EQ(PUFFERFISH, board[i]);
   }
 }
+
+TEST(performPuffer, doesPerformValidPuffer)
+{
+  board_t board = createFullBoardWith(PUFFERFISH);
+
+  Game game(board);
+
+  game.performPuffer(board, 1, 1);
+
+  for (int i = 1; i <= 3; i++)
+  {
+    EXPECT_EQ(true, isEmpty(board[(BOARD_HEIGHT - i) * BOARD_WIDTH]));
+    EXPECT_EQ(true, isEmpty(board[(BOARD_HEIGHT - i) * BOARD_WIDTH + 1]));
+    EXPECT_EQ(true, isEmpty(board[(BOARD_HEIGHT - i) * BOARD_WIDTH + 2]));
+  }
+}
+
+

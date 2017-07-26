@@ -135,8 +135,8 @@ int Game::clearMoveable(board_t& board)
 void Game::performPuffer(board_t& board, int y, int x)
 {
   for (int i = max(y - 1, 0); i <= min(y + 1, BOARD_HEIGHT - 1); i++)
-    for (int j = max(x - 1, 0); j <= min(x + 1, BOARD_HEIGHT - 1); j++)
-      board[y * BOARD_WIDTH + x] = EMPTY;
+    for (int j = max(x - 1, 0); j <= min(x + 1, BOARD_WIDTH - 1); j++)
+      board[i * BOARD_WIDTH + j] = EMPTY;
 
   shift(board);
 }
