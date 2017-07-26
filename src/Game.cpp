@@ -175,6 +175,7 @@ move_t Game::calculateMove()
       else if (isPufferFish(currentBoard[i * BOARD_WIDTH + j + 1]))
       {
         performPuffer(currentBoard, i, j + 1);
+        i += 1; // next move would have been the same check so skip it
       }
       else if (isJellyFish(currentBoard[i * BOARD_WIDTH + j]) && isMoveable(currentBoard[i * BOARD_WIDTH + j + 1]))
       {
