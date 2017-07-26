@@ -232,3 +232,82 @@ TEST(clearCrabs, doesChainClearCrabsOverwater)
   for (int i = 0; i < BOARD_WIDTH * BOARD_HEIGHT; i++)
     EXPECT_EQ(EMPTY, board[i]);
 }
+
+TEST(clearMoveable, doesClear3InARow)
+{
+  board_t board = createFullBoardWith(PUFFERFISH);
+
+  for (int i = 0; i < 3; i++)
+    board[i] = 'A';
+
+  Game game(board);
+
+  EXPECT_EQ(3, game.clearMoveable(board));
+
+  // checking that board has been shifted
+  for (int i = 0; i < 3; i++)
+    EXPECT_EQ(PUFFERFISH, board[i]);
+}
+
+TEST(clearMoveable, doesClear3InACol)
+{
+  board_t board = createFullBoardWith(PUFFERFISH);
+
+  for (int i = 0; i < 3; i++)
+    board[i * BOARD_WIDTH] = 'A';
+
+  Game game(board);
+
+  // checking score
+  EXPECT_EQ(3, game.clearMoveable(board));
+
+  // checking that board has been shifted
+  for (int i = 0; i < 3; i++)
+    EXPECT_EQ(PUFFERFISH, board[i * BOARD_WIDTH]);
+}
+
+TEST(clearMoveable, doesClear3x3)
+{
+  board_t board = createFullBoardWith(PUFFERFISH);
+
+  for (int i = 0; i < 3; i++)
+  {
+    board[i] = 'A';
+    board[i * BOARD_WIDTH] = 'A';
+  }
+
+  Game game(board);
+
+  // checking score
+  EXPECT_EQ(5, game.clearMoveable(board));
+
+  // checking that board has been shifted
+  for (int i = 0; i < 3; i++)
+  {
+    EXPECT_EQ(PUFFERFISH, board[i * BOARD_WIDTH]);
+    EXPECT_EQ(PUFFERFISH, board[i]);
+  }
+}
+
+TEST(clearMoveable, doesClear4x4)
+{
+  board_t board = createFullBoardWith(PUFFERFISH);
+
+  for (int i = 0; i < 4; i++)
+  {
+    board[i] = 'A';
+    board[i * BOARD_WIDTH] = 'A';
+  }
+
+  Game game(board);
+
+  // checking score
+  EXPECT_EQ(7, game.clearMoveable(board));
+
+  // checking that board has been shifted
+  for (int i = 0; i < 4; i++)
+  {
+    EXPECT_EQ(PUFFERFISH, board[i * BOARD_WIDTH]);
+    EXPECT_EQ(PUFFERFISH, board[i]);
+  }
+}

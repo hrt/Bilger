@@ -43,7 +43,11 @@ private:
   FRIEND_TEST(clearCrabs, doesClearCrabsOverwater);
   FRIEND_TEST(clearCrabs, doesChainClearCrabsOverwater);
 
-  // TODO : clearMoveable, performPuffer and performJellyFish
+  FRIEND_TEST(clearMoveable, doesClear3InARow);
+  FRIEND_TEST(clearMoveable, doesClear3InACol);
+  FRIEND_TEST(clearMoveable, doesClear3x3);
+  FRIEND_TEST(clearMoveable, doesClear4x4);
+  // TODO : performPuffer and performJellyFish
 };
 
 #endif
