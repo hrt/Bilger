@@ -41,6 +41,7 @@ private:
 
   FRIEND_TEST(clearCrabs, doesNotClearCrabsUnderwater);
   FRIEND_TEST(clearCrabs, doesClearCrabsOverwater);
+  FRIEND_TEST(clearCrabs, doesChainClearCrabsOverwater);
 };
 
 #endif
