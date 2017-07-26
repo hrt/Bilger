@@ -42,11 +42,11 @@ bool Game::shift(board_t& board)
   return hasShifted;
 }
 
-int Game::clearCrabs(board_t& board)
+int Game::clearCrabs(board_t& board, int waterLevel)
 {
   // note: this shift happens twice initially
   int crabReleased = 0;
-  for (int i = 0; i < BOARD_HEIGHT - 3; i++)
+  for (int i = 0; i < BOARD_HEIGHT - waterLevel; i++)
   {
     for (int j = 0; j < BOARD_WIDTH; j++)
       if (isCrab(board[i * BOARD_WIDTH + j]))
@@ -57,7 +57,7 @@ int Game::clearCrabs(board_t& board)
   }
 
   if (shift(board))
-    crabReleased += clearCrabs(board); // recursive call, if crab is released then shift -> check for crabs again (do not clear all for crab combo)
+    crabReleased += clearCrabs(board, DEFAULT_WATER_LEVEL); // recursive call, if crab is released then shift -> check for crabs again (do not clear all for crab combo)
 
   return crabReleased;
 }
@@ -116,7 +116,7 @@ int Game::clearMoveable(board_t& board)
 
   if (shift(nextGeneration))
   {
-    int crabsCleared = clearCrabs(nextGeneration) * 2;
+    int crabsCleared = clearCrabs(nextGeneration, DEFAULT_WATER_LEVEL) * 2;
     clears += crabsCleared * crabsCleared;
     clears += clearMoveable(nextGeneration);        // recursive case, if board was shifted -> check for combos again, TODO: this score should be reduced since it is "random"
   }

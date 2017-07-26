@@ -10,6 +10,7 @@
 #define CRAB 'X'
 #define JELLYFISH 'Y'
 #define PUFFERFISH 'Z'
+#define DEFAULT_WATER_LEVEL 3
 
 typedef std::vector<char> board_t;
 

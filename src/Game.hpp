@@ -28,7 +28,7 @@ public:
 private:
   board_t board;
   bool shift(board_t& board);
-  int clearCrabs(board_t& board);
+  int clearCrabs(board_t& board, int waterLevel);
   int clearMoveable(board_t& board);
   void performPuffer(board_t& board, int y, int x);
   void performJellyFish(board_t& board, int y, int j, int p);
