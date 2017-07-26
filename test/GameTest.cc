@@ -328,4 +328,15 @@ TEST(performPuffer, doesPerformValidPuffer)
   }
 }
 
+TEST(performJellyFish, doesPerformValidJellyFish)
+{
+  board_t board = createFullBoardWith('A');
+  board[0] = JELLYFISH;
 
+  Game game(board);
+
+  game.performJellyFish(board, 0, 0, 'A');
+
+  for (int i = 0; i < BOARD_WIDTH * BOARD_HEIGHT; i++)
+    EXPECT_EQ(true, isEmpty(board[i]));
+}

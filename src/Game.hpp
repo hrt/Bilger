@@ -31,7 +31,7 @@ private:
   int clearCrabs(board_t& board, int waterLevel);
   int clearMoveable(board_t& board);
   void performPuffer(board_t& board, int y, int x);
-  void performJellyFish(board_t& board, int y, int j, int p);
+  void performJellyFish(board_t& board, int y, int x, int p);
 
   // Functions used for google tests
   FRIEND_TEST(shift, returnsFalseOnNoShifts);
@@ -49,7 +49,9 @@ private:
   FRIEND_TEST(clearMoveable, doesClear4x4);
 
   FRIEND_TEST(performPuffer, doesPerformValidPuffer);
-  // TODO : performPuffer and performJellyFish
+
+  FRIEND_TEST(performJellyFish, doesPerformValidJellyFish);
+  // TODO : performJellyFish
 };
 
 #endif

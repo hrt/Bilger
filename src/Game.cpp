@@ -141,9 +141,9 @@ void Game::performPuffer(board_t& board, int y, int x)
   shift(board);
 }
 
-void Game::performJellyFish(board_t& board, int y, int j, int p)
+void Game::performJellyFish(board_t& board, int y, int x, int p)
 {
-  board[y * BOARD_WIDTH + j] = EMPTY;
+  board[y * BOARD_WIDTH + x] = EMPTY;
   char piece = board[y * BOARD_WIDTH + p];
 
   for (int i = 0; i < BOARD_HEIGHT; i++)
