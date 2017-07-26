@@ -2,6 +2,16 @@
 #include "Game.hpp"
 #include "Definitions.hpp"
 
+board_t createFullBoardWith(char piece)
+{
+  board_t board;
+  // fill up entire board
+  for (int i = 0; i < BOARD_WIDTH * BOARD_HEIGHT; i++)
+    board.push_back(piece);
+
+  return board;
+}
+
 TEST(hsEmpty, HoldsTrueForEmpty)
 {
   EXPECT_EQ(true, isEmpty(EMPTY));
@@ -117,10 +127,7 @@ TEST(performSwap, doesNotTouchOtherElements)
 
 TEST(shift, returnsFalseOnNoShifts)
 {
-  board_t board;
-  // entire board is full
-  for (int i = 0; i < BOARD_WIDTH * BOARD_HEIGHT; i++)
-    board.push_back('A');
+  board_t board = createFullBoardWith('A');
 
   Game game(board);
 
@@ -135,10 +142,7 @@ TEST(shift, returnsFalseOnNoShifts)
 
 TEST(shift, returnsTrueOnAShift)
 {
-  board_t board;
-  // entire board is full
-  for (int i = 0; i < BOARD_WIDTH * BOARD_HEIGHT; i++)
-    board.push_back('A');
+  board_t board = createFullBoardWith('A');
 
   // except this
   board[0] = EMPTY;
@@ -150,10 +154,7 @@ TEST(shift, returnsTrueOnAShift)
 
 TEST(shift, returnsTrueOnMultipleShifts)
 {
-  board_t board;
-  // entire board is full
-  for (int i = 0; i < BOARD_WIDTH * BOARD_HEIGHT; i++)
-    board.push_back('A');
+  board_t board = createFullBoardWith('A');
 
   // except these
   board[0] = EMPTY;
@@ -167,14 +168,11 @@ TEST(shift, returnsTrueOnMultipleShifts)
 
 TEST(shift, performsValidShift)
 {
-  board_t board;
+  board_t board = createFullBoardWith('A');
+
   // top row is initially empty
   for (int i = 0; i < BOARD_WIDTH; i++)
-    board.push_back(EMPTY);
-
-  // rest is full
-  for (int i = BOARD_WIDTH; i < BOARD_WIDTH * BOARD_HEIGHT; i++)
-    board.push_back('A');
+    board[i] = EMPTY;
 
   Game game(board);
 
@@ -186,4 +184,15 @@ TEST(shift, performsValidShift)
 
   for (int i = BOARD_WIDTH * (BOARD_HEIGHT - 1); i < BOARD_WIDTH * BOARD_HEIGHT; i++)
     EXPECT_EQ(true, isEmpty(board[i]));
+}
+
+TEST(clearCrabs, doesNotClearCrabsUnderwater)
+{
+  board_t board = createFullBoardWith('A');
+
+  // fill up crabs upto water level
+  for (int i = 0; i < BOARD_WIDTH * DEFAULT_WATER_LEVEL; i++)
+    board[i] = CRAB;
+
+
 }
