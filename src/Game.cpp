@@ -8,32 +8,34 @@ Game::Game(board_t board)
 
 bool Game::shift(board_t& board)
 {
-  // shift all EMPTY cells out of the board
+  // shifts all EMPTY cells to the bottom of the board
 
   bool hasShifted = false;
   for (int j = 0; j < BOARD_WIDTH; j++)
   {
-    for (int i = 0; i < BOARD_HEIGHT - 1; i++) // we don't care about the last row
-    {
-      if (isEmpty(board[i * BOARD_WIDTH + j]))
-      {
-        // first find the nearest (vertically) non empty cell
-        int nearestCell = i + 1;
-        while (nearestCell < BOARD_HEIGHT && isEmpty(board[nearestCell * BOARD_WIDTH + j]))
-          nearestCell += 1;
+    // find the nearest (vertically) empty cell
+    int nearestEmpty = 0;
+    while (nearestEmpty < BOARD_HEIGHT - 1 && !isEmpty(nearestEmpty * BOARD_WIDTH + j)) // we do not care about the last row
+      nearestEmpty += 1;
 
-        // swap all empty cells with nearest cells
-        int currentY = i;
-        while (nearestCell < BOARD_HEIGHT)
-        {
-          hasShifted |= true;
-          swap(board[currentY * BOARD_WIDTH + j], board[nearestCell * BOARD_WIDTH + j])
-          currentY += 1;
-          nearestCell += 1;
-          while (nearestCell < BOARD_HEIGHT && isEmpty(board[nearestCell * BOARD_WIDTH + j]))
-            nearestCell += 1;
-        }
-      }
+    // find the nearest (vertically) non empty cell after the empty cell
+    int nearestNonEmpty = nearestEmpty + 1;
+    while (nearestNonEmpty < BOARD_HEIGHT && isEmpty(board[nearestNonEmpty * BOARD_WIDTH + j]))
+      nearestNonEmpty += 1;
+
+    // swap all empty cells with nearest cells
+    while (nearestNonEmpty < BOARD_HEIGHT)
+    {
+      hasShifted |= true;
+      swap(board[nearestEmpty * BOARD_WIDTH + j], board[nearestNonEmpty * BOARD_WIDTH + j])
+
+      // incrementing both nearestEmpty and nearestNonEmpty, note that nearestEmpty will always be empty by default
+      nearestEmpty += 1;
+      nearestNonEmpty += 1;
+
+      // refind nearest non empty cell
+      while (nearestNonEmpty < BOARD_HEIGHT && isEmpty(board[nearestNonEmpty * BOARD_WIDTH + j]))
+        nearestNonEmpty += 1;
     }
   }
 
