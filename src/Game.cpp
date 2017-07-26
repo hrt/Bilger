@@ -15,7 +15,7 @@ bool Game::shift(board_t& board)
   {
     // find the nearest (vertically) empty cell
     int nearestEmpty = 0;
-    while (nearestEmpty < BOARD_HEIGHT - 1 && !isEmpty(nearestEmpty * BOARD_WIDTH + j)) // we do not care about the last row
+    while (nearestEmpty < BOARD_HEIGHT && !isEmpty(board[nearestEmpty * BOARD_WIDTH + j]))
       nearestEmpty += 1;
 
     // find the nearest (vertically) non empty cell after the empty cell

@@ -35,8 +35,8 @@ private:
 
   // Functions used for google tests
   FRIEND_TEST(shift, returnsFalseOnNoShifts);
-  FRIEND_TEST(shift, returnsTrueOnShift);
-  FRIEND_TEST(shift, returnsTrueOnShifts);
+  FRIEND_TEST(shift, returnsTrueOnAShift);
+  FRIEND_TEST(shift, returnsTrueOnMultipleShifts);
 };
 
 #endif

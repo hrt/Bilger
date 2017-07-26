@@ -131,7 +131,7 @@ TEST(shift, returnsFalseOnNoShifts)
   EXPECT_EQ(false, game.shift(board));
 }
 
-TEST(shift, returnsTrueOnShift)
+TEST(shift, returnsTrueOnAShift)
 {
   board_t board;
   for (int i = 0; i < BOARD_WIDTH * BOARD_HEIGHT; i++)
@@ -144,7 +144,7 @@ TEST(shift, returnsTrueOnShift)
   EXPECT_EQ(true, game.shift(board));
 }
 
-TEST(shift, returnsTrueOnShifts)
+TEST(shift, returnsTrueOnMultipleShifts)
 {
   board_t board;
   for (int i = 0; i < BOARD_WIDTH * BOARD_HEIGHT; i++)
