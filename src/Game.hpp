@@ -32,7 +32,8 @@ private:
   int clearMoveable(board_t& board);
   void performPuffer(board_t& board, int y, int x);
   void performJellyFish(board_t& board, int y, int x, int p);
-  std::vector<move_t> generateMoves(board_t& board);
+  std::vector<move_t> generateMoves(board_t& board, int initialScore);
+  board_t applyMove(board_t& board, move_t& move);
 
   // Functions used for google tests
   FRIEND_TEST(shift, returnsFalseOnNoShifts);

@@ -154,7 +154,7 @@ void Game::performJellyFish(board_t& board, int y, int x, int p)
   shift(board);
 }
 
-std::vector<move_t> generateMoves(board_t& board)
+std::vector<move_t> Game::generateMoves(board_t& board, int initialScore)
 {
   std::vector<move_t> moves;
   for (int i = 0 ; i < BOARD_HEIGHT; i++)
@@ -162,13 +162,47 @@ std::vector<move_t> generateMoves(board_t& board)
     for (int j = 0; j < BOARD_WIDTH - 1; j++) // only BOARD_WIDTH - 1 swaps possible per BOARD_WIDTH
     {
       move_t move;
+      move.score = initialScore;
       move.x = j;
       move.y = i;
       moves.push_back(move);
     }
   }
-
   return moves;
+}
+
+board_t Game::applyMove(board_t& board, move_t& move)
+{
+  board_t newBoard(board);
+
+  int y = move.y;
+  int x = move.x;
+
+
+  if (isMoveable(newBoard[y * BOARD_WIDTH + x]) && isMoveable(newBoard[y * BOARD_WIDTH + x + 1]))
+  {
+    performSwap(newBoard, y, x);
+  }
+  else if (isPufferFish(newBoard[y * BOARD_WIDTH + x]))
+  {
+    performPuffer(newBoard, y, x);
+  }
+  else if (isPufferFish(newBoard[y * BOARD_WIDTH + x + 1]))
+  {
+    performPuffer(newBoard, y, x + 1);
+  }
+  else if (isJellyFish(newBoard[y * BOARD_WIDTH + x]) && isMoveable(newBoard[y * BOARD_WIDTH + x + 1]))
+  {
+    performJellyFish(newBoard, y, x, x + 1);
+  }
+  else if (isJellyFish(newBoard[y * BOARD_WIDTH + x + 1]) && isMoveable(newBoard[y * BOARD_WIDTH + x]))
+  {
+    performJellyFish(newBoard, y, x + 1, x);
+  }
+
+  move.score += clearMoveable(newBoard);
+
+  return newBoard
 }
 
 move_t Game::calculateMove()
