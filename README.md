@@ -6,11 +6,11 @@ Also worth noting that the evaluation is currently simply the number of "cells" 
 
 Discussion thread : https://bot-supply.com/forum/development/13888-bilge-bot-logic-%5Bc-source%5D.html
 
-### Building
+### Building (Windows / Linux)
 If you're on windows you will need to install tools such as ```g++``` and ```make``` beforehand using applications such as Cygwin or Mingw.
 To build this you will need to first install google tests which can be found below.
 
-Run ```make``` within the root directory.
+Run ```make``` within the root directory to create ```bin/Bilger``` executable file.
 
 ### How to use
 Input to the program a series of 72 alphabetical characters followed by the water level and search depth.
@@ -53,12 +53,12 @@ Move : 2 8
 ```
 which would correspond to the highlighted move in the diagram above.. (```{0, 0}``` is the top left and ```{5, 11}``` is the bottom right)
 
-### Testing
+### Testing (Windows / Linux)
 To build this you will need to first install google tests which can be found below.
 
 Afterso, run ```make check``` within the root directory to build the tests and run the executable file ```bin/Test```
 
-### Google Tests
+### Google Tests (Windows / Linux)
 You will need to compile google tests https://github.com/google/googletest and place ```libgtest.a``` within the root of the ```lib``` folder.
 You will also need to have the google test include folder (included as a submodule within this repo) and place it within the ```lib``` folder.
 
@@ -68,7 +68,7 @@ To pull the google test sub module run the command ```git submodule update --ini
 To later remove the sub modules run ```git submodule deinit -f {PATH TO lib/googletest folder}```
 
 
-To compile google tests on Linux, navigate to lib/googletest/googletest/ and run  ```g++ -isystem include -I . -pthread -c src/gtest-all.cc```
+To compile google tests on Linux or Windows (with Cygwin g++ and make installed), navigate to lib/googletest/googletest/ and run  ```g++ -isystem include -I . -pthread -c src/gtest-all.cc```
 
 
 and then run  ```ar -rv libgtest.a gtest-all.o```
