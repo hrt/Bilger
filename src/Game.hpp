@@ -25,6 +25,8 @@ class Game
 public:
   Game(board_t board, int waterLevel, int searchDepth);
   move_t calculateMove();
+protected:
+  int countClears(board_t& board);
 private:
   board_t board;
   int waterLevel;

@@ -242,7 +242,9 @@ TEST(clearAll, doesClear3InARow)
 
   Game game(board, DEFAULT_WATER_LEVEL, DEFAULT_SEARCH_DEPTH);
 
-  EXPECT_EQ(3, game.clearAll(board, DEFAULT_WATER_LEVEL));
+  game.clearAll(board, DEFAULT_WATER_LEVEL);
+
+  EXPECT_EQ(3, game.countClears(board));
 
   // checking that board has been shifted
   for (int i = 0; i < 3; i++)
@@ -259,7 +261,8 @@ TEST(clearAll, doesClear3InACol)
   Game game(board, DEFAULT_WATER_LEVEL, DEFAULT_SEARCH_DEPTH);
 
   // checking score
-  EXPECT_EQ(3, game.clearAll(board, DEFAULT_WATER_LEVEL));
+  game.clearAll(board, DEFAULT_WATER_LEVEL);
+  EXPECT_EQ(3, game.countClears(board));
 
   // checking that board has been shifted
   for (int i = 0; i < 3; i++)
@@ -279,7 +282,8 @@ TEST(clearAll, doesClear3x3)
   Game game(board, DEFAULT_WATER_LEVEL, DEFAULT_SEARCH_DEPTH);
 
   // checking score
-  EXPECT_EQ(5, game.clearAll(board, DEFAULT_WATER_LEVEL));
+  game.clearAll(board, DEFAULT_WATER_LEVEL);
+  EXPECT_EQ(5, game.countClears(board));
 
   // checking that board has been shifted
   for (int i = 0; i < 3; i++)
@@ -302,7 +306,8 @@ TEST(clearAll, doesClear4x4)
   Game game(board, DEFAULT_WATER_LEVEL, DEFAULT_SEARCH_DEPTH);
 
   // checking score
-  EXPECT_EQ(7, game.clearAll(board, DEFAULT_WATER_LEVEL));
+  game.clearAll(board, DEFAULT_WATER_LEVEL);
+  EXPECT_EQ(7, game.countClears(board));
 
   // checking that board has been shifted
   for (int i = 0; i < 4; i++)

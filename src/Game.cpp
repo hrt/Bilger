@@ -122,22 +122,26 @@ int Game::clearAll(board_t& board, int waterLevel)
     clears += crabsCleared * crabsCleared;
     clears += clearAll(nextGeneration, waterLevel);        // recursive case, if board was shifted -> check for combos again
   }
-  else
-  {                                         // base case, count all empty cells for "clears"
-
-    // All empty cells should be at bottom, so exploit this to reduce complexity
-    for (int i = 0; i < BOARD_WIDTH; i++)
-    {
-      int j = BOARD_HEIGHT - 1;             // starting from bottom
-      while (j >= 0 && isEmpty(board[j * BOARD_WIDTH + i]))
-      {
-        clears += 1;
-        j -= 1;                             // move up
-      }
-    }
-  }
 
   board = nextGeneration;
+
+  return clears;
+}
+
+int Game::countClears(board_t& board)
+{
+  int clears = 0;
+
+  // Assume all empty cells should be at bottom, so exploit this to reduce complexity
+  for (int i = 0; i < BOARD_WIDTH; i++)
+  {
+    int j = BOARD_HEIGHT - 1;             // starting from bottom
+    while (j >= 0 && isEmpty(board[j * BOARD_WIDTH + i]))
+    {
+      clears += 1;
+      j -= 1;                             // move up
+    }
+  }
 
   return clears;
 }
@@ -235,7 +239,13 @@ move_t Game::search(board_t& board, int waterLevel, int searchDepth)
 
     // recursive case
     if (searchDepth > 1)
+    {
       moves[i].score += search(newBoard, waterLevel, searchDepth - 1).score;
+    }
+    else
+    {
+      moves[i].score += countClears(newBoard);
+    }
 
     // update bestMove
     if (moves[i].score > bestMove.score)
