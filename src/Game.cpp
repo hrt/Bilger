@@ -118,13 +118,21 @@ int Game::clearAll(board_t& board)
   {
     int crabsCleared = clearCrabs(nextGeneration, DEFAULT_WATER_LEVEL) * 2;
     clears += crabsCleared * crabsCleared;
-    clears += clearAll(nextGeneration);        // recursive case, if board was shifted -> check for combos again, TODO: this score should be reduced since it is "random"
+    clears += clearAll(nextGeneration);        // recursive case, if board was shifted -> check for combos again
   }
   else
-  {                                         // base case, todo: we don't need to go through entire board
-    for (int i = 0; i < (int) nextGeneration.size(); i++)
-      if (isEmpty(nextGeneration[i]))
+  {                                         // base case, count all empty cells for "clears"
+
+    // All empty cells should be at bottom, so exploit this to reduce complexity
+    for (int i = 0; i < BOARD_WIDTH; i++)
+    {
+      int j = BOARD_HEIGHT - 1;             // starting from bottom
+      while (j >= 0 && isEmpty(board[j * BOARD_WIDTH + i]))
+      {
         clears += 1;
+        j -= 1;                             // move up
+      }
+    }
   }
 
   board = nextGeneration;
