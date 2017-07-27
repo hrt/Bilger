@@ -13,7 +13,7 @@ To build this you will need to first install google tests which can be found bel
 Run ```make``` within the root directory.
 
 ### How to use
-Input to the program a series of 72 alphabetical characters follow by a non alphabetical characters to represent the board state.
+Input to the program a series of 72 alphabetical characters followed by the water level and search depth.
 
 For example if you choose to let A, B, C, D and E be different coloured pieces in this given board
 
@@ -33,9 +33,8 @@ DDBDCD
 BADCCB
 BDDCDE
 CCEBAD
-4
 ```
-follow by the water level and then search depth
+followed by the water level and then search depth
 
 for example for water level 4 and search depth of 3..
 ```
