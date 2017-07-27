@@ -1,5 +1,5 @@
 ### Bilge puzzle solver for https://yppedia.puzzlepirates.com/Bilging
-A program which will calculate the best move (it thinks) using a DFS approach with depth of 1 (for now...).
+A program which will calculate the best move (it thinks) using a DFS approach with depth of 3.
 
 Note: It looks deeper than one in the case of crabs, puffer fish and jelly fish.
 Also worth noting that the evaluation is currently simply the number of "cells" you can clear excluding ones by puffer fish and jelly fish (since they don't add to your score). Crab combos are scored as well.
@@ -45,7 +45,10 @@ Note, the '4' at the end can be any non-alpha character used to represent termin
 A crab is represented by 'X', JellyFish by 'Y' and PufferFish by 'Z'.
 
 The program will respond with your best move, for example
-```2 8```
+```
+Score : 52
+Move : 2 8
+```
 which would correspond to the highlighted move in the diagram above.. (```{0, 0}``` is the top left and ```{5, 11}``` is the bottom right)
 
 ### Testing
