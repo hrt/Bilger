@@ -59,8 +59,7 @@ To build this you will need to first install google tests which can be found bel
 Afterso, run ```make check``` within the root directory to build the tests and run the executable file ```bin/Test```
 
 ### Google Tests (Windows / Linux)
-You will need to compile google tests https://github.com/google/googletest and place ```libgtest.a``` within the root of the ```lib``` folder.
-You will also need to have the google test include folder (included as a submodule within this repo) and place it within the ```lib``` folder.
+You will need to compile google tests https://github.com/google/googletest in ```lib/googletest/googletest/``` (explained below).
 
 To pull the google test sub module run the command ```git submodule update --init --recursive```
 
