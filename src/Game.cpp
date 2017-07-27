@@ -1,9 +1,11 @@
 #include "Game.hpp"
 #include "Utils.hpp"
 
-Game::Game(board_t board)
+Game::Game(board_t board, int waterLevel, int searchDepth)
 {
   this->board = board;
+  this->waterLevel = waterLevel;
+  this->searchDepth = searchDepth;
 }
 
 bool Game::shift(board_t& board)
@@ -57,12 +59,12 @@ int Game::clearCrabs(board_t& board, int waterLevel)
   }
 
   if (shift(board))
-    crabReleased += clearCrabs(board, DEFAULT_WATER_LEVEL); // recursive call, if crab is released then shift -> check for crabs again (do not clear all for crab combo)
+    crabReleased += clearCrabs(board, waterLevel); // recursive call, if crab is released then shift -> check for crabs again (do not clear all for crab combo)
 
   return crabReleased;
 }
 
-int Game::clearAll(board_t& board)
+int Game::clearAll(board_t& board, int waterLevel)
 {
   board_t nextGeneration(board);
   int clears = 0;
@@ -116,9 +118,9 @@ int Game::clearAll(board_t& board)
 
   if (shift(nextGeneration))
   {
-    int crabsCleared = clearCrabs(nextGeneration, DEFAULT_WATER_LEVEL) * 2;
+    int crabsCleared = clearCrabs(nextGeneration, waterLevel) * 2;
     clears += crabsCleared * crabsCleared;
-    clears += clearAll(nextGeneration);        // recursive case, if board was shifted -> check for combos again
+    clears += clearAll(nextGeneration, waterLevel);        // recursive case, if board was shifted -> check for combos again
   }
   else
   {                                         // base case, count all empty cells for "clears"
@@ -186,7 +188,7 @@ std::vector<move_t> Game::generateMoves(board_t& board)
 
 // applies the move to a new board and return this board
 // also updated the move.score value according to the number of clears that move scored
-board_t Game::applyMove(board_t& board, move_t& move)
+board_t Game::applyMove(board_t& board, int waterLevel, move_t& move)
 {
   board_t newBoard(board);
 
@@ -214,13 +216,13 @@ board_t Game::applyMove(board_t& board, move_t& move)
     performJellyFish(newBoard, y, x + 1, x);
   }
 
-  move.score += clearAll(newBoard);
+  move.score += clearAll(newBoard, waterLevel);
 
   return newBoard;
 }
 
 // Depth First Search for best clearing move
-move_t Game::search(board_t& board, int depth)
+move_t Game::search(board_t& board, int waterLevel, int searchDepth)
 {
   move_t bestMove;
   bestMove.score = -1;
@@ -229,11 +231,11 @@ move_t Game::search(board_t& board, int depth)
   for (int i = 0; i < (int) moves.size(); i++)
   {
     // applies and increments moves[i].score
-    board_t newBoard = applyMove(board, moves[i]);
+    board_t newBoard = applyMove(board, waterLevel, moves[i]);
 
     // recursive case
-    if (depth > 1)
-      moves[i].score += search(newBoard, depth - 1).score;
+    if (searchDepth > 1)
+      moves[i].score += search(newBoard, waterLevel, searchDepth - 1).score;
 
     // update bestMove
     if (moves[i].score > bestMove.score)
@@ -245,5 +247,5 @@ move_t Game::search(board_t& board, int depth)
 
 move_t Game::calculateMove()
 {
-  return search(this->board, DEFAULT_SEARCH_DEPTH);
+  return search(this->board, this->waterLevel, this->searchDepth);
 }

@@ -23,18 +23,20 @@
 class Game
 {
 public:
-  Game(board_t board);
+  Game(board_t board, int waterLevel, int searchDepth);
   move_t calculateMove();
 private:
   board_t board;
+  int waterLevel;
+  int searchDepth;
   bool shift(board_t& board);
   int clearCrabs(board_t& board, int waterLevel);
-  int clearAll(board_t& board);
+  int clearAll(board_t& board, int waterLevel);
   void performPuffer(board_t& board, int y, int x);
   void performJellyFish(board_t& board, int y, int x, int p);
   std::vector<move_t> generateMoves(board_t& board);
-  board_t applyMove(board_t& board, move_t& move);
-  move_t search(board_t& board, int depth);
+  board_t applyMove(board_t& board, int waterLevel, move_t& move);
+  move_t search(board_t& board, int waterLevel, int depth);
 
   // Functions used for google tests
   FRIEND_TEST(shift, returnsFalseOnNoShifts);

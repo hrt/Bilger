@@ -7,6 +7,10 @@ class Parser
 {
 public:
   board_t parseBoard();
+  int parseSearchDepth();
+  int parseWaterLevel();
+private:
+  int parseInt();
 };
 
 #endif

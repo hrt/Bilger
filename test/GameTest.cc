@@ -129,7 +129,7 @@ TEST(shift, returnsFalseOnNoShifts)
 {
   board_t board = createFullBoardWith('A');
 
-  Game game(board);
+  Game game(board, DEFAULT_WATER_LEVEL, DEFAULT_SEARCH_DEPTH);
 
   EXPECT_FALSE(game.shift(board));
 
@@ -147,7 +147,7 @@ TEST(shift, returnsTrueOnAShift)
   // except this
   board[0] = EMPTY;
 
-  Game game(board);
+  Game game(board, DEFAULT_WATER_LEVEL, DEFAULT_SEARCH_DEPTH);
 
   EXPECT_TRUE(game.shift(board));
 }
@@ -161,7 +161,7 @@ TEST(shift, returnsTrueOnMultipleShifts)
   board[3] = EMPTY;
   board[BOARD_WIDTH] = EMPTY;
 
-  Game game(board);
+  Game game(board, DEFAULT_WATER_LEVEL, DEFAULT_SEARCH_DEPTH);
 
   EXPECT_TRUE(game.shift(board));
 }
@@ -174,7 +174,7 @@ TEST(shift, performsValidShift)
   for (int i = 0; i < BOARD_WIDTH; i++)
     board[i] = EMPTY;
 
-  Game game(board);
+  Game game(board, DEFAULT_WATER_LEVEL, DEFAULT_SEARCH_DEPTH);
 
   EXPECT_TRUE(game.shift(board));
 
@@ -194,7 +194,7 @@ TEST(clearCrabs, doesNotClearCrabsUnderwater)
   for (int i = BOARD_WIDTH * (BOARD_HEIGHT - DEFAULT_WATER_LEVEL); i < BOARD_HEIGHT; i++)
     board[i] = CRAB;
 
-  Game game(board);
+  Game game(board, DEFAULT_WATER_LEVEL, DEFAULT_SEARCH_DEPTH);
 
   EXPECT_EQ(0, game.clearCrabs(board, DEFAULT_WATER_LEVEL));
 }
@@ -207,7 +207,7 @@ TEST(clearCrabs, doesClearCrabsOverwater)
   for (int i = 0; i < BOARD_WIDTH * (BOARD_HEIGHT - DEFAULT_WATER_LEVEL); i++)
     board[i] = CRAB;
 
-  Game game(board);
+  Game game(board, DEFAULT_WATER_LEVEL, DEFAULT_SEARCH_DEPTH);
 
   EXPECT_EQ(54, game.clearCrabs(board, DEFAULT_WATER_LEVEL));
 
@@ -224,7 +224,7 @@ TEST(clearCrabs, doesChainClearCrabsOverwater)
   for (int i = 0; i < BOARD_WIDTH * BOARD_HEIGHT; i++)
     board[i] = CRAB;
 
-  Game game(board);
+  Game game(board, DEFAULT_WATER_LEVEL, DEFAULT_SEARCH_DEPTH);
 
   EXPECT_EQ(72, game.clearCrabs(board, DEFAULT_WATER_LEVEL));
 
@@ -240,9 +240,9 @@ TEST(clearAll, doesClear3InARow)
   for (int i = 0; i < 3; i++)
     board[i] = 'A';
 
-  Game game(board);
+  Game game(board, DEFAULT_WATER_LEVEL, DEFAULT_SEARCH_DEPTH);
 
-  EXPECT_EQ(3, game.clearAll(board));
+  EXPECT_EQ(3, game.clearAll(board, DEFAULT_WATER_LEVEL));
 
   // checking that board has been shifted
   for (int i = 0; i < 3; i++)
@@ -256,10 +256,10 @@ TEST(clearAll, doesClear3InACol)
   for (int i = 0; i < 3; i++)
     board[i * BOARD_WIDTH] = 'A';
 
-  Game game(board);
+  Game game(board, DEFAULT_WATER_LEVEL, DEFAULT_SEARCH_DEPTH);
 
   // checking score
-  EXPECT_EQ(3, game.clearAll(board));
+  EXPECT_EQ(3, game.clearAll(board, DEFAULT_WATER_LEVEL));
 
   // checking that board has been shifted
   for (int i = 0; i < 3; i++)
@@ -276,10 +276,10 @@ TEST(clearAll, doesClear3x3)
     board[i * BOARD_WIDTH] = 'A';
   }
 
-  Game game(board);
+  Game game(board, DEFAULT_WATER_LEVEL, DEFAULT_SEARCH_DEPTH);
 
   // checking score
-  EXPECT_EQ(5, game.clearAll(board));
+  EXPECT_EQ(5, game.clearAll(board, DEFAULT_WATER_LEVEL));
 
   // checking that board has been shifted
   for (int i = 0; i < 3; i++)
@@ -299,10 +299,10 @@ TEST(clearAll, doesClear4x4)
     board[i * BOARD_WIDTH] = 'A';
   }
 
-  Game game(board);
+  Game game(board, DEFAULT_WATER_LEVEL, DEFAULT_SEARCH_DEPTH);
 
   // checking score
-  EXPECT_EQ(7, game.clearAll(board));
+  EXPECT_EQ(7, game.clearAll(board, DEFAULT_WATER_LEVEL));
 
   // checking that board has been shifted
   for (int i = 0; i < 4; i++)
@@ -316,7 +316,7 @@ TEST(performPuffer, doesPerformValidPuffer)
 {
   board_t board = createFullBoardWith(PUFFERFISH);
 
-  Game game(board);
+  Game game(board, DEFAULT_WATER_LEVEL, DEFAULT_SEARCH_DEPTH);
 
   game.performPuffer(board, 1, 1);
 
@@ -333,7 +333,7 @@ TEST(performJellyFish, doesPerformValidJellyFish)
   board_t board = createFullBoardWith('A');
   board[0] = JELLYFISH;
 
-  Game game(board);
+  Game game(board, DEFAULT_WATER_LEVEL, DEFAULT_SEARCH_DEPTH);
 
   game.performJellyFish(board, 0, 0, 'A');
 
