@@ -62,7 +62,7 @@ int Game::clearCrabs(board_t& board, int waterLevel)
   return crabReleased;
 }
 
-int Game::clearMoveable(board_t& board)
+int Game::clearAll(board_t& board)
 {
   board_t nextGeneration(board);
   int clears = 0;
@@ -118,7 +118,7 @@ int Game::clearMoveable(board_t& board)
   {
     int crabsCleared = clearCrabs(nextGeneration, DEFAULT_WATER_LEVEL) * 2;
     clears += crabsCleared * crabsCleared;
-    clears += clearMoveable(nextGeneration);        // recursive case, if board was shifted -> check for combos again, TODO: this score should be reduced since it is "random"
+    clears += clearAll(nextGeneration);        // recursive case, if board was shifted -> check for combos again, TODO: this score should be reduced since it is "random"
   }
   else
   {                                         // base case, todo: we don't need to go through entire board
@@ -154,6 +154,7 @@ void Game::performJellyFish(board_t& board, int y, int x, int p)
   shift(board);
 }
 
+// iterates through the board and returns a list of swaps
 std::vector<move_t> Game::generateMoves(board_t& board)
 {
   std::vector<move_t> moves;
@@ -171,6 +172,8 @@ std::vector<move_t> Game::generateMoves(board_t& board)
   return moves;
 }
 
+// applies the move to a new board and return this board
+// also updated the move.score value according to the number of clears that move scored
 board_t Game::applyMove(board_t& board, move_t& move)
 {
   board_t newBoard(board);
@@ -199,11 +202,12 @@ board_t Game::applyMove(board_t& board, move_t& move)
     performJellyFish(newBoard, y, x + 1, x);
   }
 
-  move.score += clearMoveable(newBoard);
+  move.score += clearAll(newBoard);
 
   return newBoard;
 }
 
+// Depth First Search for best clearing move
 move_t Game::search(board_t& board, int depth)
 {
   move_t bestMove;

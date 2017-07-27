@@ -29,7 +29,7 @@ private:
   board_t board;
   bool shift(board_t& board);
   int clearCrabs(board_t& board, int waterLevel);
-  int clearMoveable(board_t& board);
+  int clearAll(board_t& board);
   void performPuffer(board_t& board, int y, int x);
   void performJellyFish(board_t& board, int y, int x, int p);
   std::vector<move_t> generateMoves(board_t& board);
@@ -46,10 +46,10 @@ private:
   FRIEND_TEST(clearCrabs, doesClearCrabsOverwater);
   FRIEND_TEST(clearCrabs, doesChainClearCrabsOverwater);
 
-  FRIEND_TEST(clearMoveable, doesClear3InARow);
-  FRIEND_TEST(clearMoveable, doesClear3InACol);
-  FRIEND_TEST(clearMoveable, doesClear3x3);
-  FRIEND_TEST(clearMoveable, doesClear4x4);
+  FRIEND_TEST(clearAll, doesClear3InARow);
+  FRIEND_TEST(clearAll, doesClear3InACol);
+  FRIEND_TEST(clearAll, doesClear3x3);
+  FRIEND_TEST(clearAll, doesClear4x4);
 
   FRIEND_TEST(performPuffer, doesPerformValidPuffer);
 
