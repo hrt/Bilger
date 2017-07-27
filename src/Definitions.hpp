@@ -18,6 +18,7 @@ struct move_t
 {
   int x; // 0 is left, 5 is right
   int y; // 0 is top, 11 is bottom
+  int score;
 };
 
 #endif
