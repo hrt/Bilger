@@ -154,7 +154,7 @@ void Game::performJellyFish(board_t& board, int y, int x, int p)
   shift(board);
 }
 
-std::vector<move_t> Game::generateMoves(board_t& board, int initialScore)
+std::vector<move_t> Game::generateMoves(board_t& board)
 {
   std::vector<move_t> moves;
   for (int i = 0 ; i < BOARD_HEIGHT; i++)
@@ -162,7 +162,7 @@ std::vector<move_t> Game::generateMoves(board_t& board, int initialScore)
     for (int j = 0; j < BOARD_WIDTH - 1; j++) // only BOARD_WIDTH - 1 swaps possible per BOARD_WIDTH
     {
       move_t move;
-      move.score = initialScore;
+      move.score = 0;
       move.x = j;
       move.y = i;
       moves.push_back(move);
@@ -177,7 +177,6 @@ board_t Game::applyMove(board_t& board, move_t& move)
 
   int y = move.y;
   int x = move.x;
-
 
   if (isMoveable(newBoard[y * BOARD_WIDTH + x]) && isMoveable(newBoard[y * BOARD_WIDTH + x + 1]))
   {
@@ -202,48 +201,33 @@ board_t Game::applyMove(board_t& board, move_t& move)
 
   move.score += clearMoveable(newBoard);
 
-  return newBoard
+  return newBoard;
 }
 
-move_t Game::calculateMove()
+move_t Game::search(board_t& board, int depth)
 {
   move_t bestMove;
   bestMove.score = -1;
 
-  for (int i = 0 ; i < BOARD_HEIGHT; i++)
+  std::vector<move_t> moves = generateMoves(board);
+  for (int i = 0; i < (int) moves.size(); i++)
   {
-    for (int j = 0; j < BOARD_WIDTH - 1; j++) // only BOARD_WIDTH - 1 swaps possible per BOARD_WIDTH
-    {
-      board_t currentBoard(this->board);
-      if (isMoveable(currentBoard[i * BOARD_WIDTH + j]) && isMoveable(currentBoard[i * BOARD_WIDTH + j + 1]))
-      {
-        performSwap(currentBoard, i, j);
-      }
-      else if (isPufferFish(currentBoard[i * BOARD_WIDTH + j]))
-      {
-        performPuffer(currentBoard, i, j);
-      }
-      else if (isPufferFish(currentBoard[i * BOARD_WIDTH + j + 1]))
-      {
-        performPuffer(currentBoard, i, j + 1);
-        i += 1; // next move would have been the same check so skip it
-      }
-      else if (isJellyFish(currentBoard[i * BOARD_WIDTH + j]) && isMoveable(currentBoard[i * BOARD_WIDTH + j + 1]))
-      {
-        performJellyFish(currentBoard, i, j, j + 1);
-      }
-      else if (isJellyFish(currentBoard[i * BOARD_WIDTH + j + 1]) && isMoveable(currentBoard[i * BOARD_WIDTH + j]))
-      {
-        performJellyFish(currentBoard, i, j + 1, j);
-      }
-      int currentScore = clearMoveable(currentBoard);
-      if (currentScore > bestMove.score)
-      {
-        bestMove.score = currentScore;
-        bestMove.x = j;
-        bestMove.y = i;
-      }
-    }
+    // applies and increments moves[i].score
+    board_t newBoard = applyMove(board, moves[i]);
+
+    // recursive case
+    if (depth > 1)
+      moves[i].score += search(newBoard, depth - 1).score;
+
+    // update bestMove
+    if (moves[i].score > bestMove.score)
+      bestMove = moves[i];
   }
+
   return bestMove;
+}
+
+move_t Game::calculateMove()
+{
+  return search(this->board, DEFAULT_SEARCH_DEPTH);
 }

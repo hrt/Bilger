@@ -12,6 +12,8 @@
 #define PUFFERFISH 'Z'
 #define DEFAULT_WATER_LEVEL 3
 
+#define DEFAULT_SEARCH_DEPTH 3
+
 typedef std::vector<char> board_t;
 
 struct move_t
