@@ -28,6 +28,7 @@ int Parser::parseWaterLevel()
 int Parser::parseInt()
 {
   int i;
+  std::cin >>  std::skipws;     // skip white space
   std::cin >> i;
   return i;
 }

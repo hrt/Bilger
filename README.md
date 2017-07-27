@@ -35,10 +35,11 @@ BDDCDE
 CCEBAD
 4
 ```
+follow by the water level and then search depth
 
-which is..
+for example for water level 4 and search depth of 3..
 ```
-ABCDBCADBABEDABCEAADEDAEEBBEEDDABCDACEDBADCACBDADDBDCDBADCCBBDDCDECCEBAD4
+ABCDBCADBABEDABCEAADEDAEEBBEEDDABCDACEDBADCACBDADDBDCDBADCCBBDDCDECCEBAD 4 3
 ```
 
 Note, the '4' at the end can be any non-alpha character used to represent termination.
@@ -46,7 +47,9 @@ A crab is represented by 'X', JellyFish by 'Y' and PufferFish by 'Z'.
 
 The program will respond with your best move, for example
 ```
-Score : 52
+Depth : 3
+Water Level : 4
+Score : 54
 Move : 2 8
 ```
 which would correspond to the highlighted move in the diagram above.. (```{0, 0}``` is the top left and ```{5, 11}``` is the bottom right)
