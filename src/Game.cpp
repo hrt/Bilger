@@ -175,6 +175,10 @@ std::vector<move_t> Game::generateMoves(board_t& board)
       move.x = j;
       move.y = i;
       moves.push_back(move);
+
+      // skipping duplicate puffer fish move
+      if (isPufferFish(board[i * BOARD_WIDTH + j + 1]))
+        j += 1;
     }
   }
   return moves;
