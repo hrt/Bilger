@@ -1,6 +1,6 @@
 CC			= g++
 OBJDIR	= obj
-CFLAGS  = -std=c++0x -Wall -Werror -pedantic -pthread -isystem $(LIBDIR)/googletest/googletest/include/ $(LIBDIR)/googletest/googletest/libgtest.a
+CFLAGS  = -std=gnu++0x -Wall -Werror -pedantic -pthread -isystem $(LIBDIR)/googletest/googletest/include/
 LIBDIR  = lib
 CTFLAGS = $(CFLAGS) -I $(SRCDIR)
 SRCDIR	= src
@@ -25,10 +25,10 @@ $(OBJDIR)/%.o: $(TESTDIR)/%.cc $(DEPS)
 	$(CC) -c -o $@ $< $(CTFLAGS)
 
 $(OUTDIR)/Bilger: $(OBJ)
-	$(CC) -o $@ $^ $(CFLAGS)
+	$(CC) -o $@ $^ $(CFLAGS) $(LIBDIR)/googletest/googletest/libgtest.a
 
 $(OUTDIR)/Test:	$(TOBJ)
-	$(CC) -o $@ $^ $(CTFLAGS) $(LIBDIR)/googletest/googletest/src/gtest_main.cc
+	$(CC) -o $@ $^ $(CTFLAGS) $(LIBDIR)/googletest/googletest/src/gtest_main.cc $(LIBDIR)/googletest/googletest/libgtest.a
 
 .PHONY: clean check all
 
@@ -36,4 +36,3 @@ clean:
 	rm -f $(OBJDIR)/*.o $(OUTDIR)/Bilger $(OUTDIR)/Test
 
 check: $(OUTDIR)/Bilger $(OUTDIR)/Test
-			./$(OUTDIR)/Test < test.input

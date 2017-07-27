@@ -56,7 +56,7 @@ which would correspond to the highlighted move in the diagram above.. (```{0, 0}
 ### Testing
 To build this you will need to first install google tests which can be found below.
 
-Afterso, run ```make check``` within the root directory to run the tests.
+Afterso, run ```make check``` within the root directory to build the tests and run the executable file ```bin/Test```
 
 ### Google Tests
 You will need to compile google tests https://github.com/google/googletest and place ```libgtest.a``` within the root of the ```lib``` folder.
