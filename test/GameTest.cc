@@ -233,7 +233,7 @@ TEST(clearCrabs, doesChainClearCrabsOverwater)
     EXPECT_TRUE(isEmpty(board[i]));
 }
 
-TEST(clearMoveable, doesClear3InARow)
+TEST(clearAll, doesClear3InARow)
 {
   board_t board = createFullBoardWith(PUFFERFISH);
 
@@ -242,14 +242,14 @@ TEST(clearMoveable, doesClear3InARow)
 
   Game game(board);
 
-  EXPECT_EQ(3, game.clearMoveable(board));
+  EXPECT_EQ(3, game.clearAll(board));
 
   // checking that board has been shifted
   for (int i = 0; i < 3; i++)
     EXPECT_EQ(PUFFERFISH, board[i]);
 }
 
-TEST(clearMoveable, doesClear3InACol)
+TEST(clearAll, doesClear3InACol)
 {
   board_t board = createFullBoardWith(PUFFERFISH);
 
@@ -259,14 +259,14 @@ TEST(clearMoveable, doesClear3InACol)
   Game game(board);
 
   // checking score
-  EXPECT_EQ(3, game.clearMoveable(board));
+  EXPECT_EQ(3, game.clearAll(board));
 
   // checking that board has been shifted
   for (int i = 0; i < 3; i++)
     EXPECT_EQ(PUFFERFISH, board[i * BOARD_WIDTH]);
 }
 
-TEST(clearMoveable, doesClear3x3)
+TEST(clearAll, doesClear3x3)
 {
   board_t board = createFullBoardWith(PUFFERFISH);
 
@@ -279,7 +279,7 @@ TEST(clearMoveable, doesClear3x3)
   Game game(board);
 
   // checking score
-  EXPECT_EQ(5, game.clearMoveable(board));
+  EXPECT_EQ(5, game.clearAll(board));
 
   // checking that board has been shifted
   for (int i = 0; i < 3; i++)
@@ -289,7 +289,7 @@ TEST(clearMoveable, doesClear3x3)
   }
 }
 
-TEST(clearMoveable, doesClear4x4)
+TEST(clearAll, doesClear4x4)
 {
   board_t board = createFullBoardWith(PUFFERFISH);
 
@@ -302,7 +302,7 @@ TEST(clearMoveable, doesClear4x4)
   Game game(board);
 
   // checking score
-  EXPECT_EQ(7, game.clearMoveable(board));
+  EXPECT_EQ(7, game.clearAll(board));
 
   // checking that board has been shifted
   for (int i = 0; i < 4; i++)
