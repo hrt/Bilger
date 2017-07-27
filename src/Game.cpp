@@ -154,6 +154,23 @@ void Game::performJellyFish(board_t& board, int y, int x, int p)
   shift(board);
 }
 
+std::vector<move_t> generateMoves(board_t& board)
+{
+  std::vector<move_t> moves;
+  for (int i = 0 ; i < BOARD_HEIGHT; i++)
+  {
+    for (int j = 0; j < BOARD_WIDTH - 1; j++) // only BOARD_WIDTH - 1 swaps possible per BOARD_WIDTH
+    {
+      move_t move;
+      move.x = j;
+      move.y = i;
+      moves.push_back(move);
+    }
+  }
+
+  return moves;
+}
+
 move_t Game::calculateMove()
 {
   move_t bestMove;
