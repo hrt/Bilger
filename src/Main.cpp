@@ -11,7 +11,8 @@ int main()
 
   move_t bestMove = game.calculateMove();
 
-  std::cout << bestMove.x << ' ' << bestMove.y << std::endl;
+  std::cout << "Score : " << bestMove.score << std::endl;
+  std::cout << "Move : " << bestMove.x << ' ' << bestMove.y << std::endl;
 
   return 1;
 }
