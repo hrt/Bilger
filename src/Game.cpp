@@ -157,7 +157,7 @@ void Game::performJellyFish(board_t& board, int y, int x, int p)
 move_t Game::calculateMove()
 {
   move_t bestMove;
-  int bestScore = -1;
+  bestMove.score = -1;
 
   for (int i = 0 ; i < BOARD_HEIGHT; i++)
   {
@@ -186,9 +186,9 @@ move_t Game::calculateMove()
         performJellyFish(currentBoard, i, j + 1, j);
       }
       int currentScore = clearMoveable(currentBoard);
-      if (currentScore > bestScore)
+      if (currentScore > bestMove.score)
       {
-        bestScore = currentScore;
+        bestMove.score = currentScore;
         bestMove.x = j;
         bestMove.y = i;
       }
