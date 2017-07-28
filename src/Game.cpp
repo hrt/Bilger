@@ -1,3 +1,4 @@
+#include <iostream>
 #include "Game.hpp"
 #include "Utils.hpp"
 
@@ -195,7 +196,7 @@ std::vector<move_t> Game::generateMoves(board_t& board)
 }
 
 // applies the move to a new board and return this board
-// also updated the move.score value according to the number of clears that move scored
+// also updated the move.score value according to the number of crab clear (combos)
 board_t Game::applyMove(board_t& board, int waterLevel, move_t& move)
 {
   board_t newBoard(board);
@@ -238,19 +239,17 @@ move_t Game::search(board_t& board, int waterLevel, int searchDepth, int previou
   std::vector<move_t> moves = generateMoves(board);
   for (int i = 0; i < (int) moves.size(); i++)
   {
-    // applies and increments moves[i].score
+    // applies and adds crab clears to moves[i].score
     board_t newBoard = applyMove(board, waterLevel, moves[i]);
 
-    int totalClears = countClears(board);
+    // adding clears caused by this move to score
+    int totalClears = countClears(newBoard);
     int clears = totalClears - previousClears;
-
     moves[i].score += clears * clears;
 
     // recursive case
     if (searchDepth > 1)
-    {
       moves[i].score += search(newBoard, waterLevel, searchDepth - 1, totalClears).score;
-    }
 
     // update bestMove
     if (moves[i].score > bestMove.score)
