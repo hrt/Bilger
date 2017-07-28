@@ -65,7 +65,7 @@ int Game::clearCrabs(board_t& board, int waterLevel)
   return crabReleased;
 }
 
-int Game::clearAll(board_t& board, int waterLevel)
+int Game::clearAll(board_t& board, int waterLevel, int previousClears)
 {
   board_t nextGeneration(board);
   int clears = 0;
@@ -121,11 +121,16 @@ int Game::clearAll(board_t& board, int waterLevel)
   {
     int crabScore = clearCrabs(nextGeneration, waterLevel) * 2;
     crabScore *= crabScore;
-
     clears += crabScore;
 
+    int totalClears = countClears(nextGeneration);
+    int currentClears = totalClears - previousClears;
+
+    clears += currentClears * currentClears;
+
     // recursive case, if board was shifted -> check for combos again
-    clears += clearAll(nextGeneration, waterLevel);
+    // note : ignoring crab combos
+    clearAll(nextGeneration, waterLevel, totalClears);
   }
 
   board = nextGeneration;
@@ -197,7 +202,7 @@ std::vector<move_t> Game::generateMoves(board_t& board)
 
 // applies the move to a new board and return this board
 // also updated the move.score value according to the number of crab clear (combos)
-board_t Game::applyMove(board_t& board, int waterLevel, move_t& move)
+board_t Game::applyMove(board_t& board, int waterLevel, move_t& move, int previousClears)
 {
   board_t newBoard(board);
 
@@ -225,7 +230,7 @@ board_t Game::applyMove(board_t& board, int waterLevel, move_t& move)
     performJellyFish(newBoard, y, x + 1, x);
   }
 
-  move.score += clearAll(newBoard, waterLevel);
+  move.score += clearAll(newBoard, waterLevel, previousClears);
 
   return newBoard;
 }
@@ -239,17 +244,12 @@ move_t Game::search(board_t& board, int waterLevel, int searchDepth, int previou
   std::vector<move_t> moves = generateMoves(board);
   for (int i = 0; i < (int) moves.size(); i++)
   {
-    // applies and adds crab clears to moves[i].score
-    board_t newBoard = applyMove(board, waterLevel, moves[i]);
-
-    // adding clears caused by this move to score
-    int totalClears = countClears(newBoard);
-    int clears = totalClears - previousClears;
-    moves[i].score += clears * clears;
+    // applies and adds clears to moves[i].score
+    board_t newBoard = applyMove(board, waterLevel, moves[i], previousClears);
 
     // recursive case
     if (searchDepth > 1)
-      moves[i].score += search(newBoard, waterLevel, searchDepth - 1, totalClears).score;
+      moves[i].score += search(newBoard, waterLevel, searchDepth - 1, countClears(newBoard)).score;
 
     // update bestMove
     if (moves[i].score > bestMove.score)

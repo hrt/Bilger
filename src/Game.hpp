@@ -33,11 +33,11 @@ private:
   int searchDepth;
   bool shift(board_t& board);
   int clearCrabs(board_t& board, int waterLevel);
-  int clearAll(board_t& board, int waterLevel);
+  int clearAll(board_t& board, int waterLevel, int previousClears);
   void performPuffer(board_t& board, int y, int x);
   void performJellyFish(board_t& board, int y, int x, int p);
   std::vector<move_t> generateMoves(board_t& board);
-  board_t applyMove(board_t& board, int waterLevel, move_t& move);
+  board_t applyMove(board_t& board, int waterLevel, move_t& move, int previousClears);
   move_t search(board_t& board, int waterLevel, int depth, int previousClears);
 
   // Functions used for google tests
