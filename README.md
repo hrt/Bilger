@@ -66,6 +66,14 @@ Water Level : 3
 Score : 116
 Move : 2 8
 ```
+
+```
+ABCDBCACBABEDABCEAADEDAEEBBEEDDABCDACEDBADCACBEADDBDCDBADCCBBDDCDECCEBAD 3 4
+Depth : 4
+Water Level : 3
+Score : 125
+Move : 4 2
+```
 which would correspond to the highlighted move in the diagram above.. (```{0, 0}``` is the top left and ```{5, 11}``` is the bottom right)
 
 ### Testing (Windows / Linux)
