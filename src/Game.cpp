@@ -208,8 +208,6 @@ board_t Game::applyMove(board_t& board, int waterLevel, move_t& move, int previo
   int y = move.y;
   int x = move.x;
 
-  int fishMoveScore = 9;
-
   if (isMoveable(newBoard[y * BOARD_WIDTH + x]) && isMoveable(newBoard[y * BOARD_WIDTH + x + 1]))
   {
     performSwap(newBoard, y, x);
@@ -219,25 +217,21 @@ board_t Game::applyMove(board_t& board, int waterLevel, move_t& move, int previo
   {
     performPuffer(newBoard, y, x);
     clearAll(newBoard, waterLevel, previousClears);
-    move.score += fishMoveScore;
   }
   else if (isPufferFish(newBoard[y * BOARD_WIDTH + x + 1]))
   {
     performPuffer(newBoard, y, x + 1);
     clearAll(newBoard, waterLevel, previousClears);
-    move.score += fishMoveScore;
   }
   else if (isJellyFish(newBoard[y * BOARD_WIDTH + x]) && isMoveable(newBoard[y * BOARD_WIDTH + x + 1]))
   {
     performJellyFish(newBoard, y, x, x + 1);
     clearAll(newBoard, waterLevel, previousClears);
-    move.score += fishMoveScore;
   }
   else if (isJellyFish(newBoard[y * BOARD_WIDTH + x + 1]) && isMoveable(newBoard[y * BOARD_WIDTH + x]))
   {
     performJellyFish(newBoard, y, x + 1, x);
     clearAll(newBoard, waterLevel, previousClears);
-    move.score += fishMoveScore;
   }
 
 
