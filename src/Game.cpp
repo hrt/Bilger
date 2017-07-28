@@ -119,19 +119,12 @@ int Game::clearAll(board_t& board, int waterLevel)
   if (shift(nextGeneration))
   {
     int crabScore = clearCrabs(nextGeneration, waterLevel) * 2;
-    crabScore *= 3;
     crabScore *= crabScore;
 
-    int clearScore = countClears(nextGeneration);
-    clearScore *= clearScore;
-
     clears += crabScore;
-    clears += clearScore;
 
     // recursive case, if board was shifted -> check for combos again
-    // these clears are not recorded since they do not add much to real score
-    // note : these crabs are not recorded either although they do add to real score
-    clearAll(nextGeneration, waterLevel);
+    clears += clearAll(nextGeneration, waterLevel);
   }
 
   board = nextGeneration;
@@ -237,7 +230,7 @@ board_t Game::applyMove(board_t& board, int waterLevel, move_t& move)
 }
 
 // Depth First Search for best clearing move
-move_t Game::search(board_t& board, int waterLevel, int searchDepth)
+move_t Game::search(board_t& board, int waterLevel, int searchDepth, int previousClears)
 {
   move_t bestMove;
   bestMove.score = -1;
@@ -248,10 +241,15 @@ move_t Game::search(board_t& board, int waterLevel, int searchDepth)
     // applies and increments moves[i].score
     board_t newBoard = applyMove(board, waterLevel, moves[i]);
 
+    int totalClears = countClears(board);
+    int clears = totalClears - previousClears;
+
+    moves[i].score += clears * clears;
+
     // recursive case
     if (searchDepth > 1)
     {
-      moves[i].score += search(newBoard, waterLevel, searchDepth - 1).score;
+      moves[i].score += search(newBoard, waterLevel, searchDepth - 1, totalClears).score;
     }
 
     // update bestMove
@@ -264,5 +262,5 @@ move_t Game::search(board_t& board, int waterLevel, int searchDepth)
 
 move_t Game::calculateMove()
 {
-  return search(this->board, this->waterLevel, this->searchDepth);
+  return search(this->board, this->waterLevel, this->searchDepth, 0);
 }

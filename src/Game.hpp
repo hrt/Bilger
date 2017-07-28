@@ -38,7 +38,7 @@ private:
   void performJellyFish(board_t& board, int y, int x, int p);
   std::vector<move_t> generateMoves(board_t& board);
   board_t applyMove(board_t& board, int waterLevel, move_t& move);
-  move_t search(board_t& board, int waterLevel, int depth);
+  move_t search(board_t& board, int waterLevel, int depth, int previousClears);
 
   // Functions used for google tests
   FRIEND_TEST(shift, returnsFalseOnNoShifts);
