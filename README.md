@@ -1,5 +1,5 @@
 ### Bilge puzzle solver for https://yppedia.puzzlepirates.com/Bilging
-A program which will calculate the best move (it thinks) using a DFS approach with depth of 3.
+A program which will calculate the best move (it thinks) using a DFS approach with depth of 3 (approx 2 seconds).
 
 Note: It looks deeper in the case of crabs, puffer fish and jelly fish.
 
@@ -47,7 +47,7 @@ The program will respond with your best move, example outputs :
 ABCDBCACBABEDABCEAADEDAEEBBEEDDABCDACEDBADCACBEADDBDCDBADCCBBDDCDECCEBAD 4 1
 Depth : 1
 Water Level : 4
-Score : 121
+Score : 64
 Move : 2 8
 ```
 
@@ -55,7 +55,7 @@ Move : 2 8
 ABCDBCACBABEDABCEAADEDAEEBBEEDDABCDACEDBADCACBEADDBDCDBADCCBBDDCDECCEBAD 3 2
 Depth : 2
 Water Level : 3
-Score : 170
+Score : 80
 Move : 2 8
 ```
 
@@ -63,8 +63,8 @@ Move : 2 8
 ABCDBCACBABEDABCEAADEDAEEBBEEDDABCDACEDBADCACBEADDBDCDBADCCBBDDCDECCEBAD 3 3
 Depth : 3
 Water Level : 3
-Score : 433
-Move : 4 5
+Score : 116
+Move : 2 8
 ```
 which would correspond to the highlighted move in the diagram above.. (```{0, 0}``` is the top left and ```{5, 11}``` is the bottom right)
 
