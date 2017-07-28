@@ -1,7 +1,10 @@
 ### Bilge puzzle solver for https://yppedia.puzzlepirates.com/Bilging
 A program which will calculate the best move (it thinks) using a DFS approach with depth of 3 (approx 2 seconds).
 
-Note: It looks deeper in the case of crabs, puffer fish and jelly fish.
+Here is a demo of the program combined with screen detection and mouse movement to play the puzzle for me!
+[![Alt text](https://img.youtube.com/vi/TD-OIjR4WTw/0.jpg)](https://www.youtube.com/watch?v=TD-OIjR4WTw)
+
+https://www.youtube.com/watch?v=TD-OIjR4WTw
 
 Discussion thread : https://bot-supply.com/forum/development/13888-bilge-bot-logic-%5Bc-source%5D.html
 
