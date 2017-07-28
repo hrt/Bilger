@@ -1,5 +1,6 @@
 ### Bilge puzzle solver for https://yppedia.puzzlepirates.com/Bilging
-A program which will calculate the best move (it thinks) using a DFS approach with depth of 3 (approx 2 seconds).
+Bilging is a puzzle made for humans in the game Puzzle Pirates.
+This program will calculate the best move (it thinks) using a DFS approach with depth of 3 (approx 2 seconds).
 
 Here is a demo of the program combined with screen detection and mouse movement to play the puzzle for me!
 [![Alt text](https://img.youtube.com/vi/TD-OIjR4WTw/0.jpg)](https://www.youtube.com/watch?v=TD-OIjR4WTw)
