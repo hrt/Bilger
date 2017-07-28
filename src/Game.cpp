@@ -118,9 +118,20 @@ int Game::clearAll(board_t& board, int waterLevel)
 
   if (shift(nextGeneration))
   {
-    int crabsCleared = clearCrabs(nextGeneration, waterLevel) * 2;
-    clears += crabsCleared * crabsCleared;
-    clears += clearAll(nextGeneration, waterLevel);        // recursive case, if board was shifted -> check for combos again
+    int crabScore = clearCrabs(nextGeneration, waterLevel) * 2;
+    crabScore *= 3;
+    crabScore *= crabScore;
+
+    int clearScore = countClears(nextGeneration);
+    clearScore *= clearScore;
+
+    clears += crabScore;
+    clears += clearScore;
+
+    // recursive case, if board was shifted -> check for combos again
+    // these clears are not recorded since they do not add much to real score
+    // note : these crabs are not recorded either although they do add to real score
+    clearAll(nextGeneration, waterLevel);
   }
 
   board = nextGeneration;
@@ -241,10 +252,6 @@ move_t Game::search(board_t& board, int waterLevel, int searchDepth)
     if (searchDepth > 1)
     {
       moves[i].score += search(newBoard, waterLevel, searchDepth - 1).score;
-    }
-    else
-    {
-      moves[i].score += countClears(newBoard);
     }
 
     // update bestMove
