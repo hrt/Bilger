@@ -250,6 +250,10 @@ move_t Game::search(board_t& board, int waterLevel, int searchDepth, int previou
     // applies and adds clears to moves[i].score
     board_t newBoard = applyMove(board, waterLevel, moves[i], previousClears);
 
+    // Force combo moves before useless ones
+    if (moves[i].score > 0)
+      moves[i].score += searchDepth;
+
     // recursive case
     if (searchDepth > 1)
       moves[i].score += search(newBoard, waterLevel, searchDepth - 1, countClears(newBoard)).score;
