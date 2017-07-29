@@ -9,7 +9,26 @@ https://www.youtube.com/watch?v=TD-OIjR4WTw
 
 Discussion thread : https://bot-supply.com/forum/development/13888-bilge-bot-logic-%5Bc-source%5D.html
 
-### Building (Windows / Linux)
+### Building to work for your C++ Bot
+You will need to copy ```Game.cpp```, ```Game.hpp``` and ```Definitions.hpp``` and compile your bot with the parameter ```-I {LOCATION OF FILES COPIED}```.
+
+Then you will need to create a ```board_t (vector<char>)``` and figure out the water level and your search depth
+by using pixel detection or what not.
+
+Create an instance of the game with code ```Game(board, waterLevel, searchDepth)```
+To calculate the best move, make use of the function ```move_t calculateMove()``` within the Game class.
+e.g.
+```
+board_t board = readBoard();
+int waterLevel = readWaterLevel();
+int searchDepth = 3;
+Game game(board, waterLevel, searchDepth);
+move_t bestMove = game.calculateMove();
+std::cout << bestMove.x << ' ' << bestMove.y << std::endl;
+```
+
+
+### Building (Windows / Linux) to use Bilge Logic
 If you're on windows you will need to install tools such as ```g++``` and ```make``` beforehand using applications such as Cygwin or Mingw.
 To build this you will need to first install google tests which can be found below.
 
