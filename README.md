@@ -3,9 +3,10 @@ Bilging is a puzzle made for humans in the game Puzzle Pirates.
 This program will calculate the best move (it thinks) using a DFS approach with depth of 3 (approx 2 seconds).
 
 Here is a demo of the program combined with screen detection and mouse movement to play the puzzle for me!
-[![Alt text](https://img.youtube.com/vi/TD-OIjR4WTw/0.jpg)](https://www.youtube.com/watch?v=TD-OIjR4WTw)
+[![Alt text](https://img.youtube.com/vi/cG1DBXWJxLw/0.jpg)](https://www.youtube.com/watch?v=cG1DBXWJxLw)
 
-https://www.youtube.com/watch?v=TD-OIjR4WTw
+~~https://www.youtube.com/watch?v=TD-OIjR4WTw~~ (taken down by copyright claims of game owner)
+https://www.youtube.com/watch?v=cG1DBXWJxLw
 
 Discussion thread : https://bot-supply.com/forum/development/13888-bilge-bot-logic-%5Bc-source%5D.html
 
